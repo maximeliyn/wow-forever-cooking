@@ -40,6 +40,7 @@ def render_static_html(data):
         template = handle.read()
 
     payload = dict(data)
+    payload.pop("generated_at", None)
     payload["status"] = {"state": "static", "next_refresh_at": None, "refresh_hours": (data.get("settings") or {}).get("refresh_hours", 3)}
     payload["static_build"] = True
 
@@ -181,6 +182,9 @@ def main():
     args = parser.parse_args()
 
     import dashboard_server as ds
+
+    # CLI сам решает, когда публиковать: не даём серверному refresh() сделать это параллельно
+    ds.AUTO_PUBLISH = False
 
     dash = ds.Dashboard()
     cached = dash.load_cache()

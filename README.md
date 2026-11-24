@@ -8,6 +8,9 @@
 * **локальный сервер** — `dashboard_server.py` (живые цены, кнопка обновления, автообновление каждые 3 часа);
 * **статический сайт** — `docs/index.html` со вшитыми данными для GitHub Pages (работает без Python и без ПК).
 
+> **Сайт для друзей и телефона:** https://maximeliyn.github.io/wow-forever-cooking/
+> (обновляется в облаке GitHub каждые 3 часа, даже когда ПК выключен)
+
 ## 1. Локальный запуск
 
 ```
@@ -39,26 +42,27 @@ python build_static_site.py --no-refresh
 
 Если TSM недоступен и кэша нет — сборка прерывается, чтобы не затереть рабочий сайт пустыми ценами.
 
-## 3. Публикация на GitHub Pages
+## 3. Публикация на GitHub Pages — уже настроена
 
-Репозиторий уже инициализирован и закоммичен (`main`). Осталось создать пустой репозиторий
-и привязать его:
+* Репозиторий: **https://github.com/maximeliyn/wow-forever-cooking** (public, ветка `main`)
+* Готовый сайт: **https://maximeliyn.github.io/wow-forever-cooking/**
+* Pages: `Settings → Pages → Deploy from a branch → main /docs`
+* Actions: `Settings → Actions → General → Workflow permissions = Read and write`
+* Первый облачный запуск уже прошёл успешно: workflow скачал TSM, пересобрал `docs/index.html`
+  и закоммитил его сам.
+
+Локальная папка `C:\parser` — это тот же репозиторий (`origin` = GitHub). Проверить:
 
 ```bash
-# вариант А — через GitHub CLI (если установлен):
-gh repo create wow-forever-cooking --public --source=. --remote=origin --push
-
-# вариант Б — вручную:
-# 1) создайте пустой репозиторий на https://github.com/new (без README и лицензии)
-git remote add origin https://github.com/ВАШ_ЛОГИН/wow-forever-cooking.git
-git push -u origin main
+cd C:\parser
+git remote -v
+git status
 ```
 
-Затем в настройках репозитория:
+Если захочется другое имя или свой домен: переименуйте репозиторий на GitHub, выполните
+`git remote set-url origin https://github.com/ЛОГИН/НОВОЕ_ИМЯ.git`, при необходимости
+поправьте `Custom domain` в настройках Pages.
 
-1. **Settings → Pages → Source**: `Deploy from a branch`, Branch: `main`, папка `/docs`, **Save**.
-2. **Settings → Actions → General → Workflow permissions**: `Read and write permissions` (иначе бот не сможет пушить обновления).
-3. Через 1–2 минуты сайт будет здесь: `https://ВАШ_ЛОГИН.github.io/wow-forever-cooking/`
 
 ## 4. Автообновление 24/7
 

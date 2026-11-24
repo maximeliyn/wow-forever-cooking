@@ -140,9 +140,26 @@ def publish(out_file=OUT_FILE, branch=BRANCH, message=None):
 
     code, output = git("push", "origin", branch)
     if code != 0:
-        log("[git] push не удался: %s" % output)
-        log("[git] проверьте авторизацию GitHub (git credential manager / PAT) и ветку %s" % branch)
-        return False
+        # Кто-то (например, GitHub Actions) успел закоммитить свои цены.
+        # Переносим наш сгенерированный index.html поверх свежего origin/main.
+        log("[git] push отклонён, пробую пересобрать поверх origin/%s" % branch)
+        code, fetch_out = git("fetch", "origin", branch)
+        if code != 0:
+            log("[git] fetch не удался: %s" % fetch_out)
+            return False
+        code, reset_out = git("reset", "--soft", "origin/" + branch)
+        if code != 0:
+            log("[git] reset не удался: %s" % reset_out)
+            return False
+        code, output = git("commit", "-m", message)
+        if code != 0:
+            log("[git] повторный commit не удался: %s" % output)
+            return False
+        code, output = git("push", "origin", branch)
+        if code != 0:
+            log("[git] push не удался: %s" % output)
+            log("[git] проверьте авторизацию GitHub (git credential manager / PAT) и ветку %s" % branch)
+            return False
     log("[git] push origin %s: ok" % branch)
     return True
 

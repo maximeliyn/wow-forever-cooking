@@ -1,0 +1,20 @@
+# Тяжёлые исходники HTML-страниц Wowhead (нужны только для первичной сборки рецептов)
+page1.html
+page2.html
+page3.html
+page*_files/
+
+# Локальные выгрузки CSV
+*.csv
+
+# Кэш цен TSM: в GitHub Actions скачивается заново
+tsm_prices_cache.json
+vendor_prices_raw.json
+
+# Служебное
+__pycache__/
+*.pyc
+*.tmp
+*.log
+.vscode/
+.idea/

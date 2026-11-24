@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW Forever — Кулинария (EU PvP Орда)</title>
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-2:#10151c;
+    --panel:#141a23;
+    --panel-2:#182029;
+    --panel-3:#1e2733;
+    --line:#25303d;
+    --line-soft:#1c242e;
+    --text:#dfe6ef;
+    --text-dim:#91a0b3;
+    --text-mute:#66768a;
+    --gold:#ffd257;
+    --gold-deep:#c79a24;
+    --green:#4fd67f;
+    --green-deep:#2c8f4f;
+    --blue:#63a8ff;
+    --purple:#b98cff;
+    --red:#ff6b6b;
+    --amber:#ffb347;
+    --shadow:0 18px 40px rgba(0,0,0,.45);
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(255,210,87,.07), transparent 60%),
+      radial-gradient(900px 400px at 90% 0%, rgba(99,168,255,.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font:14px/1.45 "Segoe UI", "Inter", Roboto, system-ui, sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  button{font-family:inherit}
+
+  /* ---------- шапка ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:14px 22px;
+    background:linear-gradient(180deg, rgba(20,26,35,.97), rgba(16,21,28,.94));
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(8px);
+  }
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand .crest{
+    width:38px;height:38px;flex:0 0 38px;border-radius:10px;
+    display:grid;place-items:center;font-size:20px;
+    background:linear-gradient(145deg,#2a2114,#171310);
+    border:1px solid #3b3223;
+    box-shadow:inset 0 0 18px rgba(255,210,87,.18);
+  }
+  .brand h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+  .brand h1 span{color:var(--gold)}
+  .brand .sub{font-size:11.5px;color:var(--text-mute);white-space:nowrap}
+  .realm-badge{
+    font-size:11px;letter-spacing:.6px;text-transform:uppercase;
+    padding:4px 9px;border-radius:999px;
+    color:#ff9b9b;background:rgba(255,107,107,.10);border:1px solid rgba(255,107,107,.35);
+  }
+  .topbar .right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap}
+  .update-info{text-align:right;font-size:11.5px;color:var(--text-mute);line-height:1.35}
+  .update-info b{color:var(--text-dim);font-weight:600}
+
+  .auto-badge{
+    display:flex;align-items:center;gap:9px;
+    padding:7px 13px;border-radius:10px;
+    background:linear-gradient(180deg,rgba(46,160,67,.13),rgba(24,60,35,.35));
+    border:1px solid rgba(79,214,127,.35);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .auto-badge .live-dot{
+    width:8px;height:8px;border-radius:50%;background:var(--green);flex:0 0 8px;
+    box-shadow:0 0 0 3px rgba(79,214,127,.16);animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.85)}}
+  .auto-badge .auto-title{font-size:11.5px;font-weight:600;color:#9df0b8;white-space:nowrap}
+  .auto-badge .auto-sub{font-size:10.5px;color:var(--text-mute);white-space:nowrap}
+  .auto-badge .auto-sub b{color:var(--text-dim);font-weight:600}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:8px 13px;border-radius:9px;cursor:pointer;
+    background:var(--panel-3);color:var(--text);
+    border:1px solid var(--line);
+    font-size:13px;font-weight:500;transition:.15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{background:#26313e;border-color:#374656}
+  .btn:active{transform:translateY(1px)}
+  .btn[disabled]{opacity:.55;cursor:default;transform:none}
+  .btn-gold{
+    background:linear-gradient(180deg,#3a2f16,#241d0f);
+    border-color:#5b4820;color:var(--gold);
+    box-shadow:inset 0 1px 0 rgba(255,210,87,.14);
+  }
+  .btn-gold:hover{background:linear-gradient(180deg,#46381a,#2a2111);border-color:#79602a}
+  .btn-green{
+    background:linear-gradient(180deg,#16341f,#0f2417);
+    border-color:#28593a;color:#8ef0ac;
+  }
+  .btn-green:hover{background:linear-gradient(180deg,#1c4127,#12291b);border-color:#367a4d}
+  .btn-ghost{background:transparent}
+  .btn-sm{padding:4px 9px;font-size:11.5px;border-radius:7px;gap:5px}
+
+  .spinner{
+    width:13px;height:13px;border-radius:50%;
+    border:2px solid rgba(255,210,87,.25);border-top-color:var(--gold);
+    animation:spin .8s linear infinite;display:none;flex:0 0 13px;
+  }
+  .busy .spinner{display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- контент ---------- */
+  .wrap{max-width:1500px;margin:0 auto;padding:18px 22px 60px}
+
+  .notice{
+    display:flex;gap:11px;align-items:flex-start;
+    margin-bottom:14px;padding:11px 14px;border-radius:10px;
+    background:rgba(99,168,255,.07);border:1px solid rgba(99,168,255,.22);
+    color:#c9dcf5;font-size:12.5px;
+  }
+  .notice.warn{background:rgba(255,179,71,.08);border-color:rgba(255,179,71,.3);color:#ffd9a8}
+  .notice .ico{font-size:14px;line-height:1.2}
+  .notice b{color:#fff;font-weight:600}
+  .notice code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:4px;font:11.5px "Cascadia Mono","Consolas",monospace;color:#e7eef7}
+  .notice details summary{cursor:pointer;color:var(--blue);font-weight:600;display:inline-block}
+  .notice details[open] summary{margin-bottom:5px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin-bottom:16px}
+  .stat{
+    background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:11px 14px;position:relative;overflow:hidden;
+  }
+  .stat::after{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,210,87,.35),transparent)}
+  .stat .k{font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute)}
+  .stat .v{font-size:20px;font-weight:600;margin-top:3px;color:var(--text)}
+  .stat .v.green{color:var(--green)}
+  .stat .v.gold{color:var(--gold)}
+  .stat .hint{font-size:11px;color:var(--text-mute);margin-top:2px;line-height:1.3;min-height:14px}
+
+  .toolbar{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+    padding:12px;margin-bottom:14px;
+    background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:var(--radius);
+  }
+  .search{
+    position:relative;flex:1 1 280px;min-width:220px;
+  }
+  .search input{
+    width:100%;padding:9px 12px 9px 34px;
+    background:var(--bg-2);border:1px solid var(--line);border-radius:9px;
+    color:var(--text);font-size:13px;outline:none;transition:.15s;
+  }
+  .search input:focus{border-color:#4a5f77;box-shadow:0 0 0 3px rgba(99,168,255,.10)}
+  .search .mag{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:13px}
+  .search .clear{
+    position:absolute;right:7px;top:50%;transform:translateY(-50%);
+    background:none;border:0;color:var(--text-mute);cursor:pointer;font-size:15px;padding:2px 5px;display:none;
+  }
+  .search.has-value .clear{display:block}
+
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;
+    padding:8px 12px;border-radius:9px;font-size:12.5px;
+    background:var(--bg-2);border:1px solid var(--line);color:var(--text-dim);
+    transition:.15s;white-space:nowrap;
+  }
+  .chip:hover{border-color:#3b4a5c;color:var(--text)}
+  .chip.on{background:rgba(79,214,127,.12);border-color:rgba(79,214,127,.45);color:#9df0b8}
+  .chip.on.blue{background:rgba(99,168,255,.13);border-color:rgba(99,168,255,.45);color:#b7d7ff}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.85}
+  .chip input{display:none}
+
+  .skill-filter{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-mute)}
+  .skill-filter input{
+    width:58px;padding:7px 8px;border-radius:8px;text-align:center;
+    background:var(--bg-2);border:1px solid var(--line);color:var(--text);font-size:12.5px;outline:none;
+  }
+  .skill-filter input:focus{border-color:#4a5f77}
+
+  .toolbar .spacer{flex:1 1 0}
+  .import-all{position:relative}
+
+  /* ---------- таблица ---------- */
+  .table-shell{
+    border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;
+    background:var(--panel);box-shadow:var(--shadow);
+  }
+  table{width:100%;border-collapse:separate;border-spacing:0;min-width:1120px}
+  thead th{
+    position:sticky;top:0;z-index:5;
+    padding:10px 11px;text-align:left;vertical-align:bottom;
+    background:linear-gradient(180deg,#1b232d,#161d26);
+    border-bottom:1px solid var(--line);
+    font-size:11px;font-weight:600;letter-spacing:.45px;text-transform:uppercase;
+    color:var(--text-mute);white-space:nowrap;
+  }
+  thead th.sortable{cursor:pointer;user-select:none;transition:.12s}
+  thead th.sortable:hover{color:var(--text)}
+  thead th .arrow{opacity:0;margin-left:4px;font-size:9px}
+  thead th.sorted{color:var(--gold)}
+  thead th.sorted .arrow{opacity:1}
+  thead th .unit{display:block;font-size:9.5px;letter-spacing:0;text-transform:none;color:var(--text-mute);font-weight:500;margin-top:1px}
+
+  tbody tr.dish{transition:background .15s}
+  tbody tr.dish>td{
+    padding:9px 11px;border-bottom:1px solid var(--line-soft);vertical-align:middle;
+    background:var(--panel);
+  }
+  tbody tr.dish:hover>td{background:#182130}
+  tbody tr.dish.profitable>td{background:rgba(47,158,79,.085)}
+  tbody tr.dish.profitable:hover>td{background:rgba(47,158,79,.14)}
+  tbody tr.dish.profitable>td:first-child{box-shadow:inset 3px 0 0 var(--green-deep)}
+  tbody tr.dish td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  tbody tr.dish.open>td{border-bottom-color:transparent}
+
+  .dish-name{display:flex;align-items:center;gap:8px;min-width:0}
+  .expand{
+    flex:0 0 20px;width:20px;height:20px;border-radius:6px;display:grid;place-items:center;
+    background:var(--panel-3);border:1px solid var(--line);color:var(--text-dim);
+    font-size:10px;transition:.18s;cursor:pointer;
+  }
+  .expand:hover{background:#2b3846;color:var(--gold)}
+  tr.open .expand{transform:rotate(90deg);border-color:#4b6180;color:var(--gold)}
+  .dish-name .txt{font-weight:600;font-size:13.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:340px}
+  .dish-name a.txt:hover{color:var(--gold);text-decoration:none}
+  .dish-name .en{font-size:10.5px;color:var(--text-mute);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+
+  .skill-badge{
+    display:inline-block;min-width:34px;text-align:center;
+    padding:2px 6px;border-radius:6px;font-size:11.5px;font-weight:600;
+    background:var(--panel-3);border:1px solid var(--line);color:var(--text-dim);
+  }
+  .qty-note{font-size:10px;color:var(--text-mute);margin-left:3px}
+
+  .money{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .money .g{color:var(--gold);font-weight:600}
+  .money .s{color:#c6d0dc;font-weight:600}
+  .money .c{color:#d09a6a;font-weight:600}
+  .money .cur{font-size:10px;opacity:.75;margin-right:1px}
+  .money.neg .g,.money.neg .s,.money.neg .c{color:var(--red)}
+  .money.muted{color:var(--text-mute)}
+
+  .profit-cell{display:flex;align-items:center;justify-content:flex-end;gap:7px}
+  .pill{
+    display:inline-flex;align-items:center;gap:4px;
+    padding:2px 7px;border-radius:999px;font-size:10.5px;font-weight:600;
+    white-space:nowrap;
+  }
+  .pill.green{background:rgba(79,214,127,.14);border:1px solid rgba(79,214,127,.38);color:#8ef0ac}
+  .pill.grey{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text-mute)}
+  .pill.red{background:rgba(255,107,107,.10);border:1px solid rgba(255,107,107,.32);color:#ff9d9d}
+  .pill.amber{background:rgba(255,179,71,.12);border:1px solid rgba(255,179,71,.36);color:#ffcb85}
+  .pill.blue{background:rgba(99,168,255,.12);border:1px solid rgba(99,168,255,.35);color:#a9cfff}
+
+  .verdict{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:4px 10px;border-radius:8px;font-size:12px;font-weight:600;white-space:nowrap;
+  }
+  .verdict.vendor{background:rgba(79,214,127,.15);border:1px solid rgba(79,214,127,.45);color:#8ef0ac}
+  .verdict.ah{background:rgba(99,168,255,.13);border:1px solid rgba(99,168,255,.4);color:#a9cfff}
+  .verdict.warn{background:rgba(255,179,71,.12);border:1px solid rgba(255,179,71,.4);color:#ffcb85}
+  .verdict.none{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text-mute)}
+
+  .liq{display:flex;flex-direction:column;gap:4px;min-width:130px}
+  .liq-top{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
+  .liq-top.high{color:#8ef0ac}
+  .liq-top.medium{color:#ffd257}
+  .liq-top.low{color:#ff9d9d}
+  .liq-top.none{color:var(--text-mute)}
+  .bar{height:4px;border-radius:3px;background:#202a36;overflow:hidden;width:100%}
+  .bar>i{display:block;height:100%;border-radius:3px;transition:width .4s}
+  .bar.high>i{background:linear-gradient(90deg,#2c8f4f,#4fd67f)}
+  .bar.medium>i{background:linear-gradient(90deg,#a67c1f,#ffd257)}
+  .bar.low>i{background:linear-gradient(90deg,#8a3c3c,#ff6b6b)}
+  .bar.none>i{background:#33404f}
+  .liq-sub{font-size:10.5px;color:var(--text-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+
+  /* спойлер ингредиентов */
+  tr.details>td{padding:0;border-bottom:1px solid var(--line-soft);background:#0f141b}
+  .spoiler{display:grid;grid-template-rows:0fr;transition:grid-template-rows .34s cubic-bezier(.3,.7,.2,1)}
+  tr.open + tr.details .spoiler{grid-template-rows:1fr}
+  .spoiler>.inner{overflow:hidden;visibility:hidden;transition:visibility .34s}
+  tr.open + tr.details .spoiler>.inner{visibility:visible}
+  .spoiler-box{
+    padding:10px 14px 16px 42px;
+    position:sticky;left:0;max-width:calc(100vw - 60px);
+  }
+  .spoiler-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .spoiler-title{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);font-weight:600}
+  .sort-group{display:inline-flex;gap:4px;align-items:center}
+  .sort-group .lbl{font-size:10.5px;color:var(--text-mute);margin-right:2px}
+  .sort-btn{
+    background:var(--panel-2);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:6px;font-size:10.5px;padding:3px 8px;cursor:pointer;
+  }
+  .sort-btn:hover{border-color:#3b4a5c;color:var(--text)}
+  .sort-btn.on{background:rgba(255,210,87,.1);border-color:rgba(255,210,87,.4);color:var(--gold)}
+  table.reagents{width:100%;border-collapse:collapse;background:var(--panel)}
+  table.reagents th{
+    position:static;background:#151c25;border-bottom:1px solid var(--line);
+    padding:6px 9px;font-size:10px;letter-spacing:.4px;
+  }
+  table.reagents td{padding:6px 9px;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+  table.reagents tr:last-child td{border-bottom:0}
+  table.reagents tr:hover td{background:#161e29}
+  table.reagents td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .src{
+    display:inline-block;padding:1px 6px;border-radius:5px;font-size:9.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.3px;margin-left:6px;vertical-align:middle;
+  }
+  .src.vendor{background:rgba(255,210,87,.11);border:1px solid rgba(255,210,87,.32);color:var(--gold)}
+  .src.auction{background:rgba(99,168,255,.11);border:1px solid rgba(99,168,255,.32);color:var(--blue)}
+  .src.auction_market{background:rgba(185,140,255,.11);border:1px solid rgba(185,140,255,.32);color:var(--purple)}
+  .src.unknown{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.32);color:var(--red)}
+  .spoiler-foot{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    margin-top:9px;font-size:11.5px;color:var(--text-mute);
+  }
+  .spoiler-foot .grow{flex:1 1 0}
+  .spoiler-foot b{color:var(--text-dim)}
+  .empty{padding:40px 20px;text-align:center;color:var(--text-mute)}
+  .empty .big{font-size:30px;opacity:.6;margin-bottom:8px}
+
+  /* ---------- модалка ---------- */
+  .overlay{
+    position:fixed;inset:0;z-index:80;display:none;place-items:center;
+    background:rgba(5,8,12,.72);backdrop-filter:blur(3px);padding:20px;
+  }
+  .overlay.show{display:grid}
+  .modal{
+    width:min(720px,100%);max-height:90vh;overflow:auto;
+    background:linear-gradient(180deg,#18202b,#121821);
+    border:1px solid #2c3948;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6);
+  }
+  .modal-head{
+    display:flex;align-items:flex-start;gap:12px;padding:16px 20px 12px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-head h2{margin:0;font-size:16px}
+  .modal-head .sub{font-size:11.5px;color:var(--text-mute);margin-top:2px}
+  .modal-head .close{
+    margin-left:auto;background:none;border:1px solid var(--line);border-radius:8px;
+    color:var(--text-dim);width:30px;height:30px;cursor:pointer;font-size:14px;
+  }
+  .modal-head .close:hover{background:var(--panel-3);color:#fff}
+  .modal-body{padding:14px 20px 18px}
+  .form-grid{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+  .field{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-mute)}
+  .field select,.field input{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:8px;
+    color:var(--text);padding:7px 9px;font-size:12.5px;outline:none;font-family:inherit;
+  }
+  .field select:focus,.field input:focus{border-color:#4a5f77}
+  textarea{
+    width:100%;min-height:190px;resize:vertical;padding:11px 12px;
+    background:#0a0e13;border:1px solid var(--line);border-radius:10px;
+    color:#c7e6d0;font:12px/1.55 "Cascadia Mono","Consolas",monospace;outline:none;white-space:pre;
+  }
+  textarea:focus{border-color:#3f5a44;box-shadow:0 0 0 3px rgba(79,214,127,.08)}
+  .modal-note{
+    margin-top:10px;padding:10px 12px;border-radius:9px;font-size:11.5px;line-height:1.5;
+    background:rgba(99,168,255,.06);border:1px solid rgba(99,168,255,.2);color:#b9d3f0;
+  }
+  .modal-note code{background:rgba(255,255,255,.07);padding:1px 5px;border-radius:4px;font-size:11px}
+  .modal-foot{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .modal-foot .hint{margin-left:auto;font-size:11px;color:var(--text-mute)}
+
+  .toast{
+    position:fixed;right:20px;bottom:20px;z-index:120;
+    display:flex;align-items:center;gap:9px;
+    padding:11px 16px;border-radius:10px;font-size:12.5px;
+    background:#16321f;border:1px solid #2e6b40;color:#a8f0bc;
+    box-shadow:0 16px 40px rgba(0,0,0,.5);
+    opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s;
+    max-width:min(460px,calc(100vw - 40px));
+  }
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast.err{background:#341a1a;border-color:#6e3535;color:#ffb4b4}
+
+  footer{
+    margin-top:18px;padding:14px 4px;font-size:11.5px;color:var(--text-mute);
+    display:flex;gap:16px;flex-wrap:wrap;align-items:center;line-height:1.6;
+  }
+  footer .sep{opacity:.35}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--text-mute)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+
+  @media (max-width:1180px){
+    .hide-md{display:none}
+    .dish-name .en{display:none}
+    table{min-width:920px}
+  }
+  @media (max-width:900px){
+    .wrap{padding:14px 12px 50px}
+    .hide-sm{display:none}
+    .topbar{padding:11px 14px}
+    .brand h1{font-size:15px}
+    .liq-sub{max-width:120px}
+    table{min-width:720px}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="crest">🍲</div>
+    <div>
+      <h1>WoW <span>Forever</span> — Кулинария</h1>
+      <div class="sub">экономика крафта · цены TSM Public Data</div>
+    </div>
+  </div>
+  <span class="realm-badge">EU · PvP · Орда</span>
+  <div class="right">
+    <div class="update-info">
+      <div>TSM: <b id="tsm-updated">—</b></div>
+      <div id="tsm-fetched">загрузка…</div>
+    </div>
+    <div class="auto-badge" id="auto-badge" style="display:none">
+      <span class="live-dot"></span>
+      <div>
+        <div class="auto-title">Автообновление каждые 3 часа</div>
+        <div class="auto-sub">Последнее обновление: <b id="auto-badge-time">—</b></div>
+      </div>
+    </div>
+    <button class="btn" id="export-btn" title="Скачать таблицу в CSV">⤓ CSV</button>
+    <button class="btn btn-gold" id="refresh-btn" title="Обновить цены с TSM">
+      <span class="spinner"></span><span id="refresh-label">⟳ Обновить цены с TSM</span>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="notices"></div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="toolbar">
+    <div class="search" id="search-box">
+      <span class="mag">⌕</span>
+      <input type="text" id="search" placeholder="Поиск: блюдо или ингредиент…" autocomplete="off">
+      <button class="clear" id="search-clear" title="Очистить">×</button>
+    </div>
+
+    <label class="chip" id="chip-vendor"><input type="checkbox" id="f-vendor"><span class="dot"></span>Только профит вендору</label>
+    <label class="chip blue" id="chip-liquid"><input type="checkbox" id="f-liquid"><span class="dot"></span>Высокий выкуп</label>
+
+    <div class="skill-filter hide-sm">
+      <span>Навык</span>
+      <input type="number" id="skill-min" min="0" max="300" value="1" title="Минимальный навык">
+      <span>–</span>
+      <input type="number" id="skill-max" min="0" max="300" value="300" title="Максимальный навык">
+    </div>
+
+    <div class="spacer"></div>
+
+    <button class="btn btn-green" id="import-all">⇩ Импорт всех профитных ингредиентов (Auctionator)</button>
+  </div>
+
+  <div class="table-shell">
+    <table id="grid">
+      <thead>
+        <tr>
+          <th class="sortable" data-sort="name">Блюдо<span class="unit">клик — ингредиенты</span><span class="arrow">▲</span></th>
+          <th class="sortable" data-sort="skill" style="width:78px">Навык<span class="arrow">▲</span></th>
+          <th class="sortable num-th" data-sort="cost" style="width:120px">Себестоимость<span class="unit">min(вендор, аукцион)</span><span class="arrow">▲</span></th>
+          <th class="sortable hide-sm" data-sort="vendor_unit" style="width:112px">Вендор<span class="unit">цена за крафт</span><span class="arrow">▲</span></th>
+          <th class="sortable" data-sort="vendor_profit" style="width:132px">Прибыль вендору<span class="unit">без комиссии</span><span class="arrow">▲</span></th>
+          <th class="sortable hide-md" data-sort="ah_unit" style="width:112px">Аукцион<span class="unit">MinBuyout</span><span class="arrow">▲</span></th>
+          <th class="sortable hide-md" data-sort="ah_profit" style="width:146px">Прибыль на аукционе<span class="unit">минус 5% комиссии</span><span class="arrow">▲</span></th>
+          <th class="sortable" data-sort="liquidity_score" style="width:168px">Выкуп / ликвидность<span class="arrow">▲</span></th>
+          <th class="sortable" data-sort="verdict" style="width:124px">Вердикт<span class="arrow">▲</span></th>
+          <th style="width:96px">Импорт</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" style="display:none">
+      <div class="big">🍽</div>
+      <div id="empty-text">Ничего не найдено — ослабьте фильтры.</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="legend">
+      <span><i style="background:#2c8f4f"></i>зелёная строка — гарантированный профит вендору</span>
+      <span><i style="background:#63a8ff"></i>цены аукциона — TSM MinBuyout</span>
+      <span><i style="background:#ffd257"></i>вендорские реагенты — vendor_prices.json</span>
+    </div>
+    <span class="sep">·</span>
+    <span id="settings-note"></span>
+  </footer>
+</div>
+
+<!-- модалка Auctionator -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div>
+        <h2 id="modal-title">Импорт в Auctionator</h2>
+        <div class="sub" id="modal-sub"></div>
+      </div>
+      <button class="close" id="modal-close" title="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <label class="field">Формат
+          <select id="fmt">
+            <option value="semicolon">Auctionator: Название;;цена;кол-во</option>
+            <option value="tab">По столбцам (Tab): Название / кол-во / цена</option>
+            <option value="money">Цена по-человечески: з/с/м</option>
+            <option value="simple">Простой список (только названия)</option>
+          </select>
+        </label>
+        <label class="field">Крафтов
+          <input type="number" id="qty" min="1" max="999" value="1" style="width:80px">
+        </label>
+        <label class="field">Названия
+          <select id="lang">
+            <option value="ru">Русские (ruRU клиент)</option>
+            <option value="en">Английские (TSM / enUS)</option>
+          </select>
+        </label>
+      </div>
+
+      <textarea id="result" readonly spellcheck="false"></textarea>
+
+      <div class="modal-note" id="modal-hint"></div>
+
+      <div class="modal-foot">
+        <button class="btn btn-green" id="copy-btn">⧉ Скопировать</button>
+        <button class="btn" id="download-btn">⤓ Скачать .txt</button>
+        <span class="hint" id="modal-cost"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  const state = {
+    data: null,
+    sortKey: "vendor_profit",
+    sortDir: "desc",
+    search: "",
+    onlyProfit: false,
+    onlyLiquid: false,
+    skillMin: 1,
+    skillMax: 300,
+    expanded: new Set(),
+    spoilerSort: {},          // dishId -> {key, dir}
+    busy: false,
+    modal: { scope: "all", id: null, fmt: "semicolon", lang: "ru", qty: 1 }
+  };
+
+  const $ = (sel) => document.querySelector(sel);
+  const STATIC = !!window.__STATIC_DATA__;
+  const esc = (value) => String(value == null ? "" : value)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  const norm = (value) => String(value || "").toLowerCase().replace(/ё/g, "е").trim();
+
+  /* ---------------- деньги ---------------- */
+  function moneyParts(copper){
+    const c = Math.round(Number(copper) || 0);
+    const sign = c < 0 ? "−" : "";
+    const abs = Math.abs(c);
+    const g = Math.floor(abs / 10000);
+    const s = Math.floor((abs % 10000) / 100);
+    const cc = abs % 100;
+    let out = "";
+    if (g) out += `<span class="g">${g}</span><span class="cur">з</span>`;
+    if (s) out += `<span class="s">${s}</span><span class="cur">с</span>`;
+    if (cc || (!g && !s)) out += `<span class="c">${cc}</span><span class="cur">м</span>`;
+    return `<span class="money${c < 0 ? " neg" : ""}">${sign}${out}</span>`;
+  }
+  function money(copper){
+    if (copper === null || copper === undefined) return '<span class="money muted">—</span>';
+    return moneyParts(copper);
+  }
+  function moneyText(copper){
+    if (copper === null || copper === undefined) return "—";
+    const c = Math.round(Number(copper) || 0);
+    const abs = Math.abs(c), sign = c < 0 ? "−" : "";
+    const g = Math.floor(abs / 10000), s = Math.floor((abs % 10000) / 100), cc = abs % 100;
+    const parts = [];
+    if (g) parts.push(g + "з");
+    if (s) parts.push(s + "с");
+    if (cc || !parts.length) parts.push(cc + "м");
+    return sign + parts.join(" ");
+  }
+  function pct(value){
+    if (value === null || value === undefined) return "";
+    return (value > 0 ? "+" : "") + Math.round(value) + "%";
+  }
+  function relTime(iso){
+    if (!iso) return "";
+    const date = new Date(iso);
+    if (isNaN(date.getTime())) return "";
+    const diff = (Date.now() - date.getTime()) / 1000;
+    if (diff < 0) return "только что";
+    if (diff < 90) return "только что";
+    if (diff < 3600) return Math.round(diff / 60) + " мин назад";
+    if (diff < 86400) return Math.round(diff / 3600) + " ч назад";
+    return Math.round(diff / 86400) + " дн назад";
+  }
+  function localDate(iso){
+    if (!iso) return "—";
+    const date = new Date(iso);
+    if (isNaN(date.getTime())) return iso;
+    return date.toLocaleString("ru-RU", { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" });
+  }
+
+  /* ---------------- списки покупок (одинаково для локального и статического режима) ---------------- */
+  const FORMAT_INFO = {
+    semicolon: { title: "Auctionator: Название;;цена;кол-во", hint: "Название;;макс. цена в МЕДИ;количество — строковый формат списка покупок" },
+    tab: { title: "Auctionator: по столбцам (Tab)", hint: "Название <Tab> количество <Tab> макс. цена в меди (удобно вставлять в таблицу)" },
+    simple: { title: "Простой список покупок (только названия)", hint: "по одному названию в строке — самый совместимый вариант для Auctionator" },
+    money: { title: "Человеческая цена (зол/сер/медь)", hint: "Название;;кол-во;;цена 1 зол. 25 сер. — для ручной проверки" }
+  };
+
+  function maxBuyPrice(reagent){
+    const nap = (state.data.settings || {}).price_nap_factor || 1.2;
+    const base = reagent.ah_min || reagent.ah_market || reagent.vendor_price || 0;
+    if (base <= 0) return 0;
+    const price = base * nap;
+    const rounding = price >= 5000 ? 100 : (price >= 100 ? 10 : 1);
+    return Math.round(price / rounding) * rounding || Math.round(price);
+  }
+
+  function shoppingItemsFromDish(dish, multiplier, lang){
+    return dish.reagents.map(reagent => ({
+      id: reagent.id,
+      name: (lang === "en" && reagent.name_en) ? reagent.name_en : reagent.name,
+      qty: reagent.qty * multiplier,
+      max_price: maxBuyPrice(reagent),
+      unit: reagent.unit_price
+    }));
+  }
+
+  function shoppingItemsAll(data, multiplier, lang){
+    const merged = new Map();
+    data.dishes.forEach(dish => {
+      if (!dish.cost_complete || dish.vendor_profit <= 0) return;
+      shoppingItemsFromDish(dish, multiplier, lang).forEach(item => {
+        const existing = merged.get(item.id);
+        if (!existing) { merged.set(item.id, Object.assign({}, item)); return; }
+        existing.qty += item.qty;
+        const prices = [existing.max_price, item.max_price].filter(price => price > 0);
+        existing.max_price = prices.length ? Math.min.apply(null, prices) : 0;
+      });
+    });
+    return Array.from(merged.values()).sort((a, b) =>
+      (b.max_price * b.qty - a.max_price * a.qty) || a.name.localeCompare(b.name, "ru"));
+  }
+
+  function buildShoppingList(items, fmt){
+    if (fmt === "tab") return items.map(item => `${item.name}\t${item.qty}\t${item.max_price}`).join("\n");
+    if (fmt === "simple") return items.map(item => item.name).join("\n");
+    if (fmt === "money") return items.map(item => `${item.name};;${item.qty};;${moneyText(item.max_price)}`).join("\n");
+    return items.map(item => `${item.name};;${item.max_price};${item.qty}`).join("\n");
+  }
+
+  function localAuctionator(){
+    const modal = state.modal;
+    const data = state.data;
+    let items, listName;
+    if (modal.scope === "all") {
+      items = shoppingItemsAll(data, modal.qty, modal.lang);
+      listName = "Кулинария: профит вендору";
+    } else if (modal.scope === "reagent") {
+      let found = null;
+      data.dishes.some(dish => dish.reagents.some(reagent => {
+        if (reagent.id !== modal.id) return false;
+        found = reagent;
+        return true;
+      }));
+      if (!found) throw new Error("реагент не найден");
+      const name = (modal.lang === "en" && found.name_en) ? found.name_en : found.name;
+      items = [{ id: found.id, name, qty: modal.qty, max_price: maxBuyPrice(found), unit: found.unit_price }];
+      listName = "Кулинария: " + name;
+    } else {
+      const dish = data.dishes.find(entry => entry.id === modal.id);
+      if (!dish) throw new Error("блюдо не найдено");
+      items = shoppingItemsFromDish(dish, modal.qty, modal.lang);
+      listName = "Кулинария: " + dish.name;
+    }
+    if (!items.length) throw new Error("нечего импортировать");
+    const format = FORMAT_INFO[modal.fmt] || FORMAT_INFO.semicolon;
+    const estimated = items.reduce((sum, item) => sum + (item.max_price ? item.qty * item.max_price : 0), 0);
+    return {
+      text: buildShoppingList(items, modal.fmt),
+      items, count: items.length, list_name: listName,
+      format_title: format.title, format_hint: format.hint,
+      estimated_cost: estimated,
+      estimated_cost_text: moneyText(estimated)
+    };
+  }
+
+  /* ---------------- выгрузка CSV без сервера ---------------- */
+  function exportCsv(){
+    const data = state.data;
+    const header = ["Блюдо","Навык","Порций за крафт","Себестоимость (медь)","Себестоимость","Цена вендору (медь)","Цена вендору",
+      "Прибыль вендору (медь)","Прибыль вендору","Аукцион MinBuyout (медь)","Прибыль аукцион (медь)","Прибыль аукцион",
+      "Комиссия 5% (медь)","Ликвидность","Оценка выкупа","Вердикт","Реагенты"];
+    const cell = (value) => {
+      const text = value === null || value === undefined ? "" : String(value);
+      return /[";\n\r]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+    };
+    const rows = data.dishes.map(dish => [
+      dish.name, dish.skill, dish.craft_qty, dish.cost, moneyText(dish.cost),
+      dish.vendor_revenue, moneyText(dish.vendor_revenue), dish.vendor_profit, moneyText(dish.vendor_profit),
+      dish.ah_unit, dish.ah_profit === null ? "" : dish.ah_profit, moneyText(dish.ah_profit),
+      dish.ah_commission === null ? "" : dish.ah_commission,
+      dish.liquidity.label, dish.liquidity.score, dish.verdict,
+      dish.reagents.map(reagent => `${reagent.name} x${reagent.qty} (${moneyText(reagent.unit_price)})`).join(", ")
+    ].map(cell).join(";"));
+    const csv = "\ufeff" + [header.join(";")].concat(rows).join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "wow_forever_cooking_dashboard.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  /* ---------------- загрузка ---------------- */
+  async function loadData(){
+    if (STATIC) {
+      state.data = window.__STATIC_DATA__;
+      renderAll();
+      return;
+    }
+    const response = await fetch("/api/data", { cache: "no-store" });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    state.data = await response.json();
+    renderAll();
+  }
+
+  async function fetchStatus(){
+    try {
+      const response = await fetch("/api/status", { cache: "no-store" });
+      return await response.json();
+    } catch (error) { return null; }
+  }
+
+  /* ---------------- рендер шапки/статистики ---------------- */
+  function renderMeta(){
+    const tsm = state.data.tsm || {};
+    $("#tsm-updated").textContent = localDate(tsm.updated_at);
+    const bits = [];
+    bits.push(tsm.rows ? tsm.rows.toLocaleString("ru-RU") + " предметов" : "нет данных");
+    if (tsm.source) bits.push(tsm.source);
+    if (tsm.fetched_at) bits.push("скачано " + relTime(tsm.fetched_at));
+    const next = (state.data.status || {}).next_refresh_at;
+    if (next) bits.push("следующее ≈ " + new Date(next).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }));
+    $("#tsm-fetched").textContent = bits.join(" · ");
+    $("#tsm-fetched").title = (tsm.source_url || "") + (tsm.columns ? "\nКолонки: " + tsm.columns.join(", ") : "");
+
+    const settings = state.data.settings || {};
+    $("#settings-note").textContent =
+      `комиссия аукциона ${settings.ah_commission_pct || 5}% · автообновление каждые ${settings.refresh_hours || 3} ч · запас в списке закупки +${Math.round(((settings.price_nap_factor || 1.2) - 1) * 100)}%`;
+
+    if (STATIC) {
+      $("#refresh-btn").style.display = "none";
+      $("#auto-badge").style.display = "flex";
+      $("#auto-badge-time").textContent = localDate(tsm.fetched_at || tsm.updated_at) + " (" + relTime(tsm.fetched_at || tsm.updated_at) + ")";
+    }
+  }
+
+  function renderNotices(){
+    const tsm = state.data.tsm || {};
+    const stats = state.data.stats || {};
+    const blocks = [];
+
+    if (!tsm.has_sale_rate || !tsm.has_lots) {
+      blocks.push(`
+        <div class="notice">
+          <span class="ico">ℹ</span>
+          <div>
+            <b>Скорость выкупа — оценочная.</b>
+            TSM Public Data для WoW Forever отдаёт только колонки
+            <code>${esc((tsm.columns || []).join(", ") || "—")}</code>.
+            Полей <b>saleRate / soldPerDay / quantity / numAuctions</b> в файле нет, поэтому «Выкуп / ликвидность»
+            считается по прокси: спред минимального лота к рыночной цене и тренд recent vs historical.
+            Когда TSM начнёт отдавать реальные поля — дашборд подхватит их сам.
+          </div>
+        </div>`);
+    }
+    if (stats.no_cost > 0) {
+      blocks.push(`
+        <div class="notice warn">
+          <span class="ico">⚠</span>
+          <div>
+            <b>${stats.no_cost} блюд(а) без полной цены реагентов</b> — по ним вердикт «Проверить».
+            Добавьте цены вендора в <code>vendor_prices.json</code> или дождитесь лотов на аукционе.
+          </div>
+        </div>`);
+    }
+    const error = (window.__lastStatus && window.__lastStatus.error) || null;
+    if (error) {
+      blocks.push(`<div class="notice warn"><span class="ico">✕</span><div><b>TSM не обновился:</b> ${esc(error)}</div></div>`);
+    }
+    $("#notices").innerHTML = blocks.join("");
+  }
+
+  function renderStats(){
+    const stats = state.data.stats || {};
+    const cards = [
+      { k: "Блюд в базе", v: stats.total || 0, cls: "", hint: "кулинария 1–300" },
+      { k: "Профит вендору", v: stats.vendor_profitable || 0, cls: "green", hint: "гарантированная прибыль" },
+      { k: "Лучший крафт", v: stats.best_profit ? moneyText(stats.best_profit) : "—", cls: "gold", hint: stats.best_name || "нет профитных" },
+      { k: "Высокий выкуп", v: stats.high_liquid || 0, cls: "", hint: "оценка ликвидности ≥ 70" },
+      { k: "Без цены", v: stats.no_cost || 0, cls: "", hint: "нет цены реагента" }
+    ];
+    $("#stats").innerHTML = cards.map(card => `
+      <div class="stat">
+        <div class="k">${esc(card.k)}</div>
+        <div class="v ${card.cls}">${esc(card.v)}</div>
+        <div class="hint" title="${esc(card.hint)}">${esc(card.hint)}</div>
+      </div>`).join("");
+  }
+
+  /* ---------------- фильтрация и сортировка ---------------- */
+  function dishMatches(dish, query){
+    if (!query) return true;
+    if (norm(dish.name).includes(query) || norm(dish.name_en).includes(query)) return true;
+    return dish.reagents.some(reagent => norm(reagent.name).includes(query) || norm(reagent.name_en).includes(query));
+  }
+
+  function visibleDishes(){
+    const query = norm(state.search);
+    const list = state.data.dishes.filter(dish => {
+      if (!dishMatches(dish, query)) return false;
+      if (state.onlyProfit && !(dish.cost_complete && dish.vendor_profit > 0)) return false;
+      if (state.onlyLiquid && dish.liquidity.level !== "high") return false;
+      const skill = dish.skill;
+      if (skill < state.skillMin || skill > state.skillMax) return false;
+      return true;
+    });
+
+    const key = state.sortKey, dir = state.sortDir === "asc" ? 1 : -1;
+    const value = (dish) => {
+      switch (key) {
+        case "name": return norm(dish.name);
+        case "verdict": return dish.verdict;
+        case "liquidity_score": return dish.liquidity.score || 0;
+        case "ah_profit": return dish.ah_profit === null ? -1e18 : dish.ah_profit;
+        case "ah_unit": return dish.ah_unit || -1;
+        case "cost": return dish.cost_complete ? dish.cost : -1e18;
+        default: return dish[key] == null ? -1e18 : dish[key];
+      }
+    };
+    list.sort((a, b) => {
+      const av = value(a), bv = value(b);
+      if (typeof av === "string" || typeof bv === "string") {
+        return String(av).localeCompare(String(bv), "ru") * dir;
+      }
+      if (av === bv) return norm(a.name).localeCompare(norm(b.name), "ru");
+      return (av < bv ? -1 : 1) * dir;
+    });
+    return list;
+  }
+
+  /* ---------------- строки таблицы ---------------- */
+  function liquidityCell(dish){
+    const liq = dish.liquidity || {};
+    const level = liq.level || "none";
+    const score = liq.score || 0;
+    let top;
+    if (liq.sale_rate) {
+      top = `${Math.round(liq.sale_rate * 100)}% <span style="color:var(--text-mute);font-weight:500">· ~${liq.sold_per_day || "?"} шт/день</span>`;
+    } else if (level === "none") {
+      top = "нет лотов";
+    } else {
+      top = `${liq.label}`;
+    }
+    const bits = [];
+    if (liq.lots) bits.push(liq.lots + " лотов");
+    if (liq.spread_pct !== null && liq.spread_pct !== undefined) bits.push("спред " + pct(liq.spread_pct));
+    if (liq.trend_pct !== null && liq.trend_pct !== undefined) bits.push("тренд " + pct(liq.trend_pct));
+    if (!bits.length) bits.push(liq.note || "нет данных");
+    const title = [
+      liq.note || "",
+      liq.min_buyout ? "MinBuyout: " + moneyText(liq.min_buyout) : "",
+      liq.market_value ? "MarketValue: " + moneyText(liq.market_value) : "",
+      liq.recent ? "recent: " + moneyText(liq.recent) : "",
+      liq.historical ? "historical: " + moneyText(liq.historical) : ""
+    ].filter(Boolean).join("\n");
+    return `
+      <div class="liq" title="${esc(title)}">
+        <div class="liq-top ${level}">${top}</div>
+        <div class="bar ${level}"><i style="width:${Math.max(4, score)}%"></i></div>
+        <div class="liq-sub">${esc(bits.join(" · "))}</div>
+      </div>`;
+  }
+
+  function verdictCell(dish){
+    return `<span class="verdict ${dish.verdict_code}" title="${esc(dish.verdict_reason || "")}">${esc(dish.verdict)}</span>`;
+  }
+
+  function importButton(scope, id, label, title){
+    return `<button class="btn btn-sm ${label ? "btn-green" : "btn-ghost"}" data-import="${scope}" data-id="${esc(id)}" title="${esc(title || "Импорт в Auctionator")}">⇩${label ? " " + label : ""}</button>`;
+  }
+
+  function dishRow(dish){
+    const open = state.expanded.has(dish.id);
+    const profitable = dish.cost_complete && dish.vendor_profit > 0;
+    const costCell = dish.cost_complete
+      ? money(dish.cost)
+      : `${money(dish.cost)}<span class="pill amber" title="Нет цены: ${esc((dish.unknown_reagents || []).join(", "))}">?</span>`;
+    return `
+      <tr class="dish ${profitable ? "profitable" : ""} ${open ? "open" : ""}" data-id="${esc(dish.id)}">
+        <td>
+          <div class="dish-name">
+            <button class="expand" title="Показать ингредиенты">▶</button>
+            <a class="txt" href="${esc(dish.wowhead)}" target="_blank" rel="noopener" title="Wowhead Forever: ${esc(dish.name)}">${esc(dish.name)}</a>
+            ${dish.name_en ? `<span class="en">${esc(dish.name_en)}</span>` : ""}
+          </div>
+        </td>
+        <td><span class="skill-badge">${dish.skill}</span>${dish.craft_qty > 1 ? `<span class="qty-note">×${dish.craft_qty}</span>` : ""}</td>
+        <td class="num" title="Себестоимость крафта: min(вендор, аукцион) по каждому реагенту">${costCell}</td>
+        <td class="num hide-sm" title="Выручка у вендора за крафт">${money(dish.vendor_revenue)}</td>
+        <td class="num">
+          <div class="profit-cell">
+            ${money(dish.vendor_profit)}
+            ${profitable ? '<span class="pill green">+</span>' : (dish.vendor_profit < 0 ? '<span class="pill red">−</span>' : '<span class="pill grey">0</span>')}
+          </div>
+        </td>
+        <td class="num hide-md" title="TSM MinBuyout за крафт">${money(dish.ah_unit ? dish.ah_unit : null)}</td>
+        <td class="num hide-md" title="${dish.ah_commission ? "Комиссия: " + moneyText(dish.ah_commission) : "Нет лотов"}">
+          ${dish.ah_profit === null ? '<span class="money muted">нет лотов</span>' : money(dish.ah_profit)}
+        </td>
+        <td>${liquidityCell(dish)}</td>
+        <td>${verdictCell(dish)}</td>
+        <td>${importButton("dish", dish.id, "", "Список покупок реагентов для «" + dish.name + "»")}</td>
+      </tr>
+      <tr class="details" data-details="${esc(dish.id)}">
+        <td colspan="10">
+          <div class="spoiler">
+            <div class="inner">${reagentSpoiler(dish)}</div>
+          </div>
+        </td>
+      </tr>`;
+  }
+
+  function reagentSpoiler(dish){
+    const sort = state.spoilerSort[dish.id] || { key: "total", dir: "desc" };
+    const reagents = dish.reagents.slice();
+    const dir = sort.dir === "asc" ? 1 : -1;
+    reagents.sort((a, b) => {
+      const pick = (item) => sort.key === "unit" ? (item.unit_price == null ? -1e18 : item.unit_price)
+        : sort.key === "qty" ? item.qty
+        : (sort.key === "name" ? norm(item.name) : item.total);
+      const av = pick(a), bv = pick(b);
+      if (typeof av === "string") return av.localeCompare(bv, "ru") * dir;
+      return (av === bv ? 0 : (av < bv ? -1 : 1)) * dir;
+    });
+
+    const buttons = [
+      ["total", "по сумме"], ["unit", "по цене/шт"], ["qty", "по кол-ву"], ["name", "по имени"]
+    ].map(([key, label]) => `
+      <button class="sort-btn ${sort.key === key ? "on" : ""}" data-spoiler-sort="${key}" data-id="${esc(dish.id)}">${label}${sort.key === key ? (sort.dir === "asc" ? " ↑" : " ↓") : ""}</button>`).join("");
+
+    const rows = reagents.map(reagent => {
+      const srcLabel = reagent.unit_price_source === "vendor" ? "вендор"
+        : reagent.unit_price_source === "auction" ? "аукцион"
+        : reagent.unit_price_source === "auction_market" ? "рынок" : "нет цены";
+      return `
+        <tr>
+          <td>
+            <a href="https://www.wowhead.com/forever/ru/item=${esc(reagent.id)}" target="_blank" rel="noopener">${esc(reagent.name)}</a>
+            ${reagent.unit_price_source !== "unknown" ? `<span class="src ${esc(reagent.unit_price_source)}">${esc(srcLabel)}</span>` : '<span class="src unknown">нет цены</span>'}
+          </td>
+          <td class="num">${reagent.qty}</td>
+          <td class="num">${money(reagent.unit_price)}</td>
+          <td class="num">${money(reagent.total)}</td>
+          <td style="text-align:right">${importButton("reagent", reagent.id, "", "Купить «" + reagent.name + "» в Auctionator")}</td>
+        </tr>`;
+    }).join("");
+
+    return `
+      <div class="spoiler-box">
+        <div class="spoiler-head">
+          <span class="spoiler-title">Ингредиенты · ${dish.reagents.length}</span>
+          <div class="sort-group"><span class="lbl">сортировка:</span>${buttons}</div>
+          <div class="spacer" style="flex:1 1 0"></div>
+          ${importButton("dish", dish.id, "Импорт в Auctionator", "Список покупок реагентов для «" + dish.name + "»")}
+        </div>
+        <table class="reagents">
+          <thead><tr>
+            <th>Реагент</th><th style="width:60px;text-align:right">Кол-во</th><th style="width:120px;text-align:right">Цена за 1 шт.</th><th style="width:120px;text-align:right">Сумма</th><th style="width:52px"></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="spoiler-foot">
+          <span>Себестоимость: <b>${moneyText(dish.cost)}</b>${dish.cost_complete ? "" : " (неполная)"}</span>
+          <span class="sep" style="opacity:.35">|</span>
+          <span>Вендор платит: <b>${moneyText(dish.vendor_revenue)}</b></span>
+          <span class="sep" style="opacity:.35">|</span>
+          <span>Аукцион: <b>${dish.ah_unit ? moneyText(dish.ah_unit) : "нет лотов"}</b>${dish.ah_commission ? " (комиссия " + moneyText(dish.ah_commission) + ")" : ""}</span>
+          <span class="grow"></span>
+          <span>${esc(dish.verdict_reason || "")}</span>
+        </div>
+      </div>`;
+  }
+
+  function renderRows(){
+    const list = visibleDishes();
+    $("#rows").innerHTML = list.map(dishRow).join("");
+    $("#empty").style.display = list.length ? "none" : "block";
+    if (!list.length) {
+      $("#empty-text").textContent = state.data.dishes.length
+        ? "Ничего не найдено — ослабьте фильтры или очистите поиск."
+        : "Данных пока нет: дождитесь загрузки цен TSM.";
+    }
+    document.querySelectorAll("thead th.sortable").forEach(th => {
+      const active = th.dataset.sort === state.sortKey;
+      th.classList.toggle("sorted", active);
+      const arrow = th.querySelector(".arrow");
+      if (arrow) arrow.textContent = active ? (state.sortDir === "asc" ? "▲" : "▼") : "▲";
+    });
+  }
+
+  function renderAll(){
+    renderMeta();
+    renderNotices();
+    renderStats();
+    renderRows();
+  }
+
+  /* ---------------- события таблицы ---------------- */
+  function toggleDish(id){
+    if (state.expanded.has(id)) state.expanded.delete(id);
+    else state.expanded.add(id);
+    const row = document.querySelector(`tr.dish[data-id="${CSS.escape(id)}"]`);
+    if (row) row.classList.toggle("open", state.expanded.has(id));
+  }
+
+  $("#rows").addEventListener("click", (event) => {
+    const importBtn = event.target.closest("[data-import]");
+    if (importBtn) {
+      event.stopPropagation();
+      const scope = importBtn.dataset.import;
+      const id = importBtn.dataset.id;
+      openAuctionator(scope === "all" ? "all" : scope, id);
+      return;
+    }
+    const sortBtn = event.target.closest("[data-spoiler-sort]");
+    if (sortBtn) {
+      event.stopPropagation();
+      const dishId = sortBtn.dataset.id;
+      const key = sortBtn.dataset.spoilerSort;
+      const current = state.spoilerSort[dishId] || { key: "total", dir: "desc" };
+      state.spoilerSort[dishId] = { key, dir: current.key === key && current.dir === "desc" ? "asc" : "desc" };
+      const row = document.querySelector(`tr.dish[data-id="${CSS.escape(dishId)}"]`);
+      const details = document.querySelector(`tr.details[data-details="${CSS.escape(dishId)}"] .inner`);
+      const dish = state.data.dishes.find(item => item.id === dishId);
+      if (details && dish) details.innerHTML = reagentSpoiler(dish);
+      return;
+    }
+    const link = event.target.closest("a");
+    if (link) return;
+    if (String(window.getSelection() || "").length > 0) return;
+    const row = event.target.closest("tr.dish");
+    if (row) toggleDish(row.dataset.id);
+  });
+
+  $("#rows").addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const row = event.target.closest("tr.dish");
+    if (!row) return;
+    if (event.target.closest("a, button")) return;
+    event.preventDefault();
+    toggleDish(row.dataset.id);
+  });
+
+  /* ---------------- сортировка колонок ---------------- */
+  document.querySelectorAll("thead th.sortable").forEach(th => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.sort;
+      if (state.sortKey === key) state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+      else { state.sortKey = key; state.sortDir = (key === "name" || key === "verdict") ? "asc" : "desc"; }
+      renderRows();
+    });
+  });
+
+  /* ---------------- фильтры ---------------- */
+  const searchInput = $("#search");
+  let searchTimer = null;
+  searchInput.addEventListener("input", () => {
+    $("#search-box").classList.toggle("has-value", !!searchInput.value);
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { state.search = searchInput.value; renderRows(); }, 120);
+  });
+  $("#search-clear").addEventListener("click", () => {
+    searchInput.value = ""; state.search = ""; $("#search-box").classList.remove("has-value");
+    renderRows(); searchInput.focus();
+  });
+
+  function bindChip(chipSel, checkboxSel, onChange){
+    const chip = $(chipSel), box = $(checkboxSel);
+    chip.addEventListener("click", (event) => {
+      if (event.target !== box) { /* label переключает сам */ }
+      setTimeout(() => { chip.classList.toggle("on", box.checked); onChange(box.checked); }, 0);
+    });
+    box.addEventListener("change", () => { chip.classList.toggle("on", box.checked); onChange(box.checked); });
+  }
+  bindChip("#chip-vendor", "#f-vendor", (checked) => { state.onlyProfit = checked; renderRows(); });
+  bindChip("#chip-liquid", "#f-liquid", (checked) => { state.onlyLiquid = checked; renderRows(); });
+
+  function readSkill(){
+    const min = Math.max(0, Math.min(300, Number($("#skill-min").value) || 0));
+    const max = Math.max(0, Math.min(300, Number($("#skill-max").value) || 300));
+    state.skillMin = Math.min(min, max);
+    state.skillMax = Math.max(min, max);
+    renderRows();
+  }
+  $("#skill-min").addEventListener("input", readSkill);
+  $("#skill-max").addEventListener("input", readSkill);
+
+  /* ---------------- обновление TSM ---------------- */
+  function setBusy(busy, label){
+    state.busy = busy;
+    const button = $("#refresh-btn");
+    button.classList.toggle("busy", busy);
+    button.disabled = busy;
+    $("#refresh-label").textContent = busy ? (label || "Обновляю TSM…") : "⟳ Обновить цены с TSM";
+  }
+
+  async function refreshPrices(){
+    setBusy(true, "Обновляю TSM…");
+    try {
+      const response = await fetch("/api/update", { method: "POST" });
+      const payload = await response.json();
+      if (!payload.started) showToast("Обновление уже идёт…", false);
+      await pollUntilIdle();
+      await loadData();
+      showToast("Цены TSM обновлены", false);
+    } catch (error) {
+      showToast("Ошибка обновления: " + error.message, true);
+    } finally {
+      setBusy(false);
+      renderNotices();
+    }
+  }
+
+  async function pollUntilIdle(){
+    for (let attempt = 0; attempt < 180; attempt++) {
+      const status = await fetchStatus();
+      if (!status) { await sleep(1000); continue; }
+      window.__lastStatus = status;
+      if (status.state === "updating") {
+        setBusy(true, status.message || "Обновляю TSM…");
+        $("#tsm-fetched").textContent = status.message || "";
+        await sleep(900);
+        continue;
+      }
+      if (status.state === "error") {
+        throw new Error(status.error || "не удалось обновить");
+      }
+      return status;
+    }
+    throw new Error("таймаут обновления");
+  }
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  $("#refresh-btn").addEventListener("click", refreshPrices);
+  $("#export-btn").addEventListener("click", exportCsv);
+
+  /* ---------------- модалка Auctionator ---------------- */
+  const overlay = $("#overlay");
+  let currentText = "";
+
+  function openAuctionator(scope, id){
+    state.modal.scope = scope;
+    state.modal.id = id;
+    state.modal.copyOnOpen = true;
+    overlay.classList.add("show");
+    updateAuctionator();
+  }
+
+  async function updateAuctionator(){
+    const modal = state.modal;
+    try {
+      const payload = localAuctionator();
+      currentText = payload.text;
+      $("#result").value = payload.text;
+      $("#modal-title").textContent = modal.scope === "all"
+        ? "Импорт всех профитных ингредиентов"
+        : "Импорт в Auctionator";
+      $("#modal-sub").textContent = `${payload.list_name} · позиций: ${payload.count}` + (modal.qty > 1 ? ` · ×${modal.qty} крафтов` : "");
+      const tail = `В игре откройте <b>Auctionator → Покупки (Shopping) → Импорт</b>, вставьте список из поля выше и нажмите «Импорт».`;
+      const copied = modal.copyOnOpen ? await copyText(payload.text, true) : false;
+      modal.copyOnOpen = false;
+      $("#modal-hint").innerHTML = `
+        Формат: <b>${esc(payload.format_title)}</b> — <code>${esc(payload.format_hint)}</code>.<br>
+        ${copied
+          ? `Список <b>уже в буфере обмена</b> — останется нажать <code>Ctrl+V</code>. `
+          : `Нажмите «Скопировать», чтобы забрать список в буфер. `}
+        ${tail}`;
+      $("#modal-cost").textContent = payload.estimated_cost
+        ? "закупка по лимитам ≈ " + payload.estimated_cost_text
+        : "лимиты закупки не заданы";
+    } catch (error) {
+      currentText = "";
+      $("#result").value = "// " + error.message;
+      $("#modal-hint").textContent = "Не удалось сформировать список: " + error.message;
+    }
+  }
+
+  $("#fmt").addEventListener("change", (event) => { state.modal.fmt = event.target.value; updateAuctionator(); });
+  $("#qty").addEventListener("change", (event) => {
+    state.modal.qty = Math.max(1, Math.min(999, Number(event.target.value) || 1));
+    event.target.value = state.modal.qty;
+    updateAuctionator();
+  });
+  $("#lang").addEventListener("change", (event) => { state.modal.lang = event.target.value; updateAuctionator(); });
+
+  $("#modal-close").addEventListener("click", () => overlay.classList.remove("show"));
+  overlay.addEventListener("click", (event) => { if (event.target === overlay) overlay.classList.remove("show"); });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && overlay.classList.contains("show")) overlay.classList.remove("show");
+  });
+
+  function copyText(text, silent){
+    if (!text) return Promise.resolve(false);
+    return new Promise((resolve) => {
+      const done = () => {
+        if (!silent) showToast("Вставлено в буфер! Откройте Auctionator → Покупки → Импорт", false);
+        resolve(true);
+      };
+      const fail = () => {
+        if (!silent) showToast("Скопируйте вручную: Ctrl+A, Ctrl+C", true);
+        resolve(false);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done, fail));
+      } else {
+        fallbackCopy(text, done, fail);
+      }
+    });
+  }
+  function fallbackCopy(text, done, fail){
+    const area = $("#result");
+    const wasReadonly = area.hasAttribute("readonly");
+    area.removeAttribute("readonly");
+    area.select();
+    try { document.execCommand("copy") ? done() : fail(); }
+    catch (error) { fail(); }
+    if (wasReadonly) area.setAttribute("readonly", "readonly");
+  }
+
+  $("#copy-btn").addEventListener("click", () => {
+    if (!currentText) { showToast("Список ещё не готов", true); return; }
+    copyText(currentText);
+  });
+  $("#download-btn").addEventListener("click", () => {
+    if (!currentText) return;
+    const blob = new Blob([currentText], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "auctionator_shopping_list.txt";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  });
+
+  $("#import-all").addEventListener("click", () => {
+    state.modal.fmt = $("#fmt").value || "semicolon";
+    openAuctionator("all", null);
+    state.modal.copyOnOpen = false;
+  });
+
+  /* ---------------- toast ---------------- */
+  let toastTimer = null;
+  function showToast(message, isError){
+    const toast = $("#toast");
+    toast.textContent = message;
+    toast.classList.toggle("err", !!isError);
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
+  }
+
+  /* ---------------- старт ---------------- */
+  async function boot(){
+    if (STATIC) {
+      try {
+        await loadData();
+      } catch (error) {
+        $("#notices").innerHTML = `<div class="notice warn"><span class="ico">✕</span><div><b>Данные не встроились:</b> ${esc(error.message)}</div></div>`;
+      }
+      return;
+    }
+    try {
+      const status = await fetchStatus();
+      window.__lastStatus = status;
+      if (status && status.state === "updating") setBusy(true, status.message || "Обновляю TSM…");
+      await loadData();
+      if (status && status.state === "updating") {
+        pollUntilIdle().then(() => loadData()).then(() => setBusy(false)).catch(() => setBusy(false));
+      }
+    } catch (error) {
+      $("#notices").innerHTML = `<div class="notice warn"><span class="ico">✕</span><div><b>Не удалось загрузить данные:</b> ${esc(error.message)}. Проверьте, что dashboard_server.py запущен.</div></div>`;
+      setBusy(false);
+    }
+    setInterval(async () => {
+      const status = await fetchStatus();
+      if (!status) return;
+      window.__lastStatus = status;
+      if (status.state === "updating" && !state.busy) {
+        setBusy(true, status.message || "Обновляю TSM…");
+        pollUntilIdle().then(() => loadData()).then(() => setBusy(false)).catch(() => setBusy(false));
+      }
+    }, 30000);
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>

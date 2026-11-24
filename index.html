@@ -326,6 +326,25 @@
   .src.auction{background:rgba(99,168,255,.11);border:1px solid rgba(99,168,255,.32);color:var(--blue)}
   .src.auction_market{background:rgba(185,140,255,.11);border:1px solid rgba(185,140,255,.32);color:var(--purple)}
   .src.unknown{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.32);color:var(--red)}
+  .vendor-only{
+    display:inline-block;padding:2px 7px;border-radius:6px;font-size:10.5px;
+    background:rgba(255,210,87,.08);border:1px solid rgba(255,210,87,.25);color:var(--gold);
+    white-space:nowrap;
+  }
+  .vendor-block{
+    margin-top:12px;padding:10px 12px;border-radius:10px;
+    background:rgba(255,210,87,.05);border:1px solid rgba(255,210,87,.26);
+  }
+  .vb-head{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;color:var(--gold);margin-bottom:6px}
+  .vb-head .btn{margin-left:auto}
+  .vb-row{display:flex;gap:10px;align-items:baseline;padding:3px 0;border-bottom:1px solid var(--line-soft);font-size:12px}
+  .vb-row:last-child{border-bottom:0}
+  .vb-row a{flex:1 1 auto;color:var(--text-dim);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vb-row a:hover{color:var(--gold)}
+  .vb-qty{color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .vb-price{color:var(--text-mute);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .vb-sum{color:var(--gold);min-width:76px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .vb-total{margin-top:6px;font-size:11.5px;color:var(--text-mute);text-align:right}
   .spoiler-foot{
     display:flex;align-items:center;gap:12px;flex-wrap:wrap;
     margin-top:9px;font-size:11.5px;color:var(--text-mute);
@@ -463,9 +482,9 @@
 
     <div class="skill-filter hide-sm">
       <span>Навык</span>
-      <input type="number" id="skill-min" min="0" max="300" value="1" title="Минимальный навык">
+      <input type="number" id="skill-min" min="0" max="400" value="1" title="Минимальный навык">
       <span>–</span>
-      <input type="number" id="skill-max" min="0" max="300" value="300" title="Максимальный навык">
+      <input type="number" id="skill-max" min="0" max="400" value="400" title="Максимальный навык">
     </div>
 
     <div class="spacer"></div>
@@ -501,7 +520,7 @@
     <div class="legend">
       <span><i style="background:#2c8f4f"></i>зелёная строка — гарантированный профит вендору</span>
       <span><i style="background:#63a8ff"></i>цены аукциона — TSM MinBuyout</span>
-      <span><i style="background:#ffd257"></i>вендорские реагенты — vendor_prices.json</span>
+      <span><i style="background:#ffd257"></i>безлимитные вендорские реагенты — vendor_materials.json</span>
     </div>
     <span class="sep">·</span>
     <span id="settings-note"></span>
@@ -539,7 +558,19 @@
         </label>
       </div>
 
-      <textarea id="result" readonly spellcheck="false"></textarea>
+      <div class="field" style="margin-bottom:6px;font-size:11px" id="auction-caption">
+        Список для Auctionator — только реагенты, которые дешевле на аукционе
+      </div>
+      <textarea id="result" readonly spellcheck="false" placeholder="Все реагенты дешевле у безлимитного вендора — список для аукциона пуст."></textarea>
+
+      <div class="vendor-block" id="vendor-block" style="display:none">
+        <div class="vb-head">
+          <span>Докупить у безлимитного вендора</span>
+          <button class="btn btn-sm" id="vendor-copy">⧉ Скопировать</button>
+        </div>
+        <div id="vendor-list"></div>
+        <div class="vb-total" id="vendor-total"></div>
+      </div>
 
       <div class="modal-note" id="modal-hint"></div>
 
@@ -566,7 +597,7 @@
     onlyProfit: false,
     onlyLiquid: false,
     skillMin: 1,
-    skillMax: 300,
+    skillMax: 400,
     expanded: new Set(),
     spoilerSort: {},          // dishId -> {key, dir}
     busy: false,
@@ -641,37 +672,86 @@
 
   function maxBuyPrice(reagent){
     const nap = (state.data.settings || {}).price_nap_factor || 1.2;
-    const base = reagent.ah_min || reagent.ah_market || reagent.vendor_price || 0;
+    const base = reagent.ah_min || reagent.ah_market || 0;
     if (base <= 0) return 0;
     const price = base * nap;
     const rounding = price >= 5000 ? 100 : (price >= 100 ? 10 : 1);
     return Math.round(price / rounding) * rounding || Math.round(price);
   }
 
-  function shoppingItemsFromDish(dish, multiplier, lang){
-    return dish.reagents.map(reagent => ({
-      id: reagent.id,
-      name: (lang === "en" && reagent.name_en) ? reagent.name_en : reagent.name,
-      qty: reagent.qty * multiplier,
-      max_price: maxBuyPrice(reagent),
-      unit: reagent.unit_price
-    }));
+  function reagentName(reagent, lang){
+    return (lang === "en" && reagent.name_en) ? reagent.name_en : reagent.name;
   }
 
-  function shoppingItemsAll(data, multiplier, lang){
+  /* Реагент, который дешевле у безлимитного вендора, не попадает в Auctionator. */
+  function splitShoppingItems(reagents, multiplier, lang){
+    const auction = [], vendor = [], unknown = [];
+    reagents.forEach(reagent => {
+      const qty = reagent.qty * multiplier;
+      const name = reagentName(reagent, lang);
+      const base = { id: reagent.id, name, qty, source: reagent.unit_price_source };
+      if (reagent.unit_price_source === "auction" || reagent.unit_price_source === "auction_market") {
+        auction.push(Object.assign(base, {
+          max_price: maxBuyPrice(reagent),
+          unit: reagent.unit_price,
+          unit_price: reagent.unit_price
+        }));
+      } else if (reagent.unit_price_source === "vendor") {
+        const unit = reagent.unit_price || 0;
+        vendor.push(Object.assign(base, {
+          unit, unit_price: unit, total: unit * qty, note: reagent.vendor_note || ""
+        }));
+      } else {
+        unknown.push(base);
+      }
+    });
+    return { auction, vendor, unknown };
+  }
+
+  function mergeItems(chunks){
     const merged = new Map();
-    data.dishes.forEach(dish => {
-      if (!dish.cost_complete || dish.vendor_profit <= 0) return;
-      shoppingItemsFromDish(dish, multiplier, lang).forEach(item => {
-        const existing = merged.get(item.id);
-        if (!existing) { merged.set(item.id, Object.assign({}, item)); return; }
-        existing.qty += item.qty;
+    chunks.forEach(items => items.forEach(item => {
+      const existing = merged.get(item.id);
+      if (!existing) { merged.set(item.id, Object.assign({}, item)); return; }
+      existing.qty += item.qty;
+      if (item.source === "vendor") {
+        existing.total = existing.unit_price * existing.qty;
+      } else {
         const prices = [existing.max_price, item.max_price].filter(price => price > 0);
         existing.max_price = prices.length ? Math.min.apply(null, prices) : 0;
-      });
+      }
+    }));
+    return Array.from(merged.values());
+  }
+
+  function shoppingAll(data, multiplier, lang){
+    const auctionChunks = [], vendorChunks = [], unknownChunks = [];
+    data.dishes.forEach(dish => {
+      if (!dish.cost_complete || dish.vendor_profit <= 0) return;
+      const split = splitShoppingItems(dish.reagents, multiplier, lang);
+      auctionChunks.push(split.auction);
+      vendorChunks.push(split.vendor);
+      unknownChunks.push(split.unknown);
     });
-    return Array.from(merged.values()).sort((a, b) =>
+    const auction = mergeItems(auctionChunks).sort((a, b) =>
       (b.max_price * b.qty - a.max_price * a.qty) || a.name.localeCompare(b.name, "ru"));
+    const vendor = mergeItems(vendorChunks).sort((a, b) =>
+      ((b.total || 0) - (a.total || 0)) || a.name.localeCompare(b.name, "ru"));
+    const unknown = mergeItems(unknownChunks).sort((a, b) => a.name.localeCompare(b.name, "ru"));
+    return { auction, vendor, unknown };
+  }
+
+  function buildVendorText(vendorItems){
+    if (!vendorItems.length) return "";
+    const lines = ["Докупить у безлимитного вендора:"];
+    let total = 0;
+    vendorItems.forEach(item => {
+      const cost = item.total || 0;
+      total += cost;
+      lines.push(`- ${item.name} — ${item.qty} шт. (${moneyText(item.unit_price)}/шт., всего ${moneyText(cost)})`);
+    });
+    lines.push("Итого у вендора: " + moneyText(total));
+    return lines.join("\n");
   }
 
   function buildShoppingList(items, fmt){
@@ -684,9 +764,9 @@
   function localAuctionator(){
     const modal = state.modal;
     const data = state.data;
-    let items, listName;
+    let split, listName;
     if (modal.scope === "all") {
-      items = shoppingItemsAll(data, modal.qty, modal.lang);
+      split = shoppingAll(data, modal.qty, modal.lang);
       listName = "Кулинария: профит вендору";
     } else if (modal.scope === "reagent") {
       let found = null;
@@ -696,24 +776,37 @@
         return true;
       }));
       if (!found) throw new Error("реагент не найден");
-      const name = (modal.lang === "en" && found.name_en) ? found.name_en : found.name;
-      items = [{ id: found.id, name, qty: modal.qty, max_price: maxBuyPrice(found), unit: found.unit_price }];
-      listName = "Кулинария: " + name;
+      split = splitShoppingItems([found], modal.qty, modal.lang);
+      listName = "Кулинария: " + reagentName(found, modal.lang);
     } else {
       const dish = data.dishes.find(entry => entry.id === modal.id);
       if (!dish) throw new Error("блюдо не найдено");
-      items = shoppingItemsFromDish(dish, modal.qty, modal.lang);
+      split = splitShoppingItems(dish.reagents, modal.qty, modal.lang);
       listName = "Кулинария: " + dish.name;
     }
-    if (!items.length) throw new Error("нечего импортировать");
+    if (!split.auction.length && !split.vendor.length && !split.unknown.length) {
+      throw new Error("нечего импортировать");
+    }
     const format = FORMAT_INFO[modal.fmt] || FORMAT_INFO.semicolon;
-    const estimated = items.reduce((sum, item) => sum + (item.max_price ? item.qty * item.max_price : 0), 0);
+    const auctionCost = split.auction.reduce((sum, item) => sum + (item.max_price || 0) * item.qty, 0);
+    const vendorCost = split.vendor.reduce((sum, item) => sum + (item.total || 0), 0);
     return {
-      text: buildShoppingList(items, modal.fmt),
-      items, count: items.length, list_name: listName,
-      format_title: format.title, format_hint: format.hint,
-      estimated_cost: estimated,
-      estimated_cost_text: moneyText(estimated)
+      text: split.auction.length ? buildShoppingList(split.auction, modal.fmt) : "",
+      items: split.auction,
+      vendor_items: split.vendor,
+      unknown_items: split.unknown,
+      vendor_text: buildVendorText(split.vendor),
+      count: split.auction.length,
+      vendor_count: split.vendor.length,
+      list_name: listName,
+      format_title: format.title,
+      format_hint: format.hint,
+      estimated_cost: auctionCost,
+      estimated_cost_text: moneyText(auctionCost),
+      vendor_cost: vendorCost,
+      vendor_cost_text: moneyText(vendorCost),
+      total_cost: auctionCost + vendorCost,
+      total_cost_text: moneyText(auctionCost + vendorCost)
     };
   }
 
@@ -733,7 +826,7 @@
       dish.ah_unit, dish.ah_profit === null ? "" : dish.ah_profit, moneyText(dish.ah_profit),
       dish.ah_commission === null ? "" : dish.ah_commission,
       dish.liquidity.label, dish.liquidity.score, dish.verdict,
-      dish.reagents.map(reagent => `${reagent.name} x${reagent.qty} (${moneyText(reagent.unit_price)})`).join(", ")
+      dish.reagents.map(reagent => `${reagent.name} x${reagent.qty} (${moneyText(reagent.unit_price)}, ${reagent.price_label || "нет цены"})`).join(", ")
     ].map(cell).join(";"));
     const csv = "\ufeff" + [header.join(";")].concat(rows).join("\r\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
@@ -816,7 +909,7 @@
           <span class="ico">⚠</span>
           <div>
             <b>${stats.no_cost} блюд(а) без полной цены реагентов</b> — по ним вердикт «Проверить».
-            Добавьте цены вендора в <code>vendor_prices.json</code> или дождитесь лотов на аукционе.
+            Добавьте цены вендора в <code>vendor_materials.json</code> или дождитесь лотов на аукционе.
           </div>
         </div>`);
     }
@@ -830,7 +923,7 @@
   function renderStats(){
     const stats = state.data.stats || {};
     const cards = [
-      { k: "Блюд в базе", v: stats.total || 0, cls: "", hint: "кулинария 1–300" },
+      { k: "Блюд в базе", v: stats.total || 0, cls: "", hint: "кулинария 1–400" },
       { k: "Профит вендору", v: stats.vendor_profitable || 0, cls: "green", hint: "гарантированная прибыль" },
       { k: "Лучший крафт", v: stats.best_profit ? moneyText(stats.best_profit) : "—", cls: "gold", hint: stats.best_name || "нет профитных" },
       { k: "Высокий выкуп", v: stats.high_liquid || 0, cls: "", hint: "оценка ликвидности ≥ 70" },
@@ -871,6 +964,7 @@
         case "ah_profit": return dish.ah_profit === null ? -1e18 : dish.ah_profit;
         case "ah_unit": return dish.ah_unit || -1;
         case "cost": return dish.cost_complete ? dish.cost : -1e18;
+        case "vendor_profit": return dish.cost_complete ? dish.vendor_profit : -1e18;
         default: return dish[key] == null ? -1e18 : dish[key];
       }
     };
@@ -986,19 +1080,26 @@
       <button class="sort-btn ${sort.key === key ? "on" : ""}" data-spoiler-sort="${key}" data-id="${esc(dish.id)}">${label}${sort.key === key ? (sort.dir === "asc" ? " ↑" : " ↓") : ""}</button>`).join("");
 
     const rows = reagents.map(reagent => {
-      const srcLabel = reagent.unit_price_source === "vendor" ? "вендор"
-        : reagent.unit_price_source === "auction" ? "аукцион"
-        : reagent.unit_price_source === "auction_market" ? "рынок" : "нет цены";
+      const srcLabel = reagent.unit_price_source === "vendor" ? "Вендор"
+        : reagent.unit_price_source === "auction" ? "Аукцион"
+        : reagent.unit_price_source === "auction_market" ? "Аукцион (рынок)" : "нет цены";
+      const srcTitle = reagent.unit_price_source === "vendor"
+        ? (reagent.vendor_note || "дешевле купить у безлимитного вендора")
+        : (reagent.unit_price_source === "auction_market" ? "Нет MinBuyout — оценка по marketValue" : "");
+      const action = reagent.unit_price_source === "vendor"
+        ? `<span class="vendor-only" title="${esc(srcTitle)}">у вендора</span>`
+        : (reagent.unit_price_source === "unknown" ? `<span class="money muted">—</span>`
+          : importButton("reagent", reagent.id, "", "Купить «" + reagent.name + "» в Auctionator"));
       return `
         <tr>
           <td>
             <a href="https://www.wowhead.com/forever/ru/item=${esc(reagent.id)}" target="_blank" rel="noopener">${esc(reagent.name)}</a>
-            ${reagent.unit_price_source !== "unknown" ? `<span class="src ${esc(reagent.unit_price_source)}">${esc(srcLabel)}</span>` : '<span class="src unknown">нет цены</span>'}
+            <span class="src ${esc(reagent.unit_price_source)}" title="${esc(srcTitle)}">${esc(srcLabel)}</span>
           </td>
           <td class="num">${reagent.qty}</td>
           <td class="num">${money(reagent.unit_price)}</td>
           <td class="num">${money(reagent.total)}</td>
-          <td style="text-align:right">${importButton("reagent", reagent.id, "", "Купить «" + reagent.name + "» в Auctionator")}</td>
+          <td style="text-align:right">${action}</td>
         </tr>`;
     }).join("");
 
@@ -1017,7 +1118,7 @@
           <tbody>${rows}</tbody>
         </table>
         <div class="spoiler-foot">
-          <span>Себестоимость: <b>${moneyText(dish.cost)}</b>${dish.cost_complete ? "" : " (неполная)"}</span>
+          <span title="В том числе у вендора: ${moneyText(dish.cost_vendor || 0)} · на аукционе: ${moneyText(dish.cost_auction || 0)}">Себестоимость: <b>${moneyText(dish.cost)}</b>${dish.cost_complete ? "" : " (неполная)"}</span>
           <span class="sep" style="opacity:.35">|</span>
           <span>Вендор платит: <b>${moneyText(dish.vendor_revenue)}</b></span>
           <span class="sep" style="opacity:.35">|</span>
@@ -1133,8 +1234,8 @@
   bindChip("#chip-liquid", "#f-liquid", (checked) => { state.onlyLiquid = checked; renderRows(); });
 
   function readSkill(){
-    const min = Math.max(0, Math.min(300, Number($("#skill-min").value) || 0));
-    const max = Math.max(0, Math.min(300, Number($("#skill-max").value) || 300));
+    const min = Math.max(0, Math.min(400, Number($("#skill-min").value) || 0));
+    const max = Math.max(0, Math.min(400, Number($("#skill-max").value) || 400));
     state.skillMin = Math.min(min, max);
     state.skillMax = Math.max(min, max);
     renderRows();
@@ -1194,6 +1295,7 @@
   /* ---------------- модалка Auctionator ---------------- */
   const overlay = $("#overlay");
   let currentText = "";
+  let currentVendorText = "";
 
   function openAuctionator(scope, id){
     state.modal.scope = scope;
@@ -1208,26 +1310,60 @@
     try {
       const payload = localAuctionator();
       currentText = payload.text;
-      $("#result").value = payload.text;
+      currentVendorText = payload.vendor_text || "";
+      $("#result").value = payload.text || "";
+      $("#auction-caption").style.display = payload.count ? "block" : "none";
       $("#modal-title").textContent = modal.scope === "all"
         ? "Импорт всех профитных ингредиентов"
         : "Импорт в Auctionator";
-      $("#modal-sub").textContent = `${payload.list_name} · позиций: ${payload.count}` + (modal.qty > 1 ? ` · ×${modal.qty} крафтов` : "");
+      const parts = [`${payload.list_name} · для аукциона: ${payload.count}`];
+      if (payload.vendor_count) parts.push(`у вендора: ${payload.vendor_count}`);
+      if (payload.unknown_items.length) parts.push(`без цены: ${payload.unknown_items.length}`);
+      if (modal.qty > 1) parts.push(`×${modal.qty} крафтов`);
+      $("#modal-sub").textContent = parts.join(" · ");
+
+      const vendorBlock = $("#vendor-block");
+      if (payload.vendor_items.length) {
+        vendorBlock.style.display = "block";
+        $("#vendor-list").innerHTML = payload.vendor_items.map(item => `
+          <div class="vb-row">
+            <a href="https://www.wowhead.com/forever/ru/item=${esc(item.id)}" target="_blank" rel="noopener" title="${esc(item.note || "")}">${esc(item.name)}</a>
+            <span class="vb-qty">${item.qty} шт.</span>
+            <span class="vb-price">${moneyText(item.unit_price)}/шт.</span>
+            <span class="vb-sum">${moneyText(item.total)}</span>
+          </div>`).join("");
+        $("#vendor-total").textContent = "Итого у вендора: " + payload.vendor_cost_text;
+      } else {
+        vendorBlock.style.display = "none";
+        $("#vendor-list").innerHTML = "";
+        $("#vendor-total").textContent = "";
+      }
+
       const tail = `В игре откройте <b>Auctionator → Покупки (Shopping) → Импорт</b>, вставьте список из поля выше и нажмите «Импорт».`;
-      const copied = modal.copyOnOpen ? await copyText(payload.text, true) : false;
+      const copied = (payload.text && modal.copyOnOpen) ? await copyText(payload.text, true) : false;
       modal.copyOnOpen = false;
+      const unknown = payload.unknown_items.length
+        ? `<br><b style="color:var(--red)">Без цены:</b> ${payload.unknown_items.map(item => esc(item.name)).join(", ")} — по этим позициям список неполный.`
+        : "";
       $("#modal-hint").innerHTML = `
         Формат: <b>${esc(payload.format_title)}</b> — <code>${esc(payload.format_hint)}</code>.<br>
+        В Auctionator попадают <b>только реагенты, которые дешевле на аукционе</b>.
+        Позиции из блока «Докупить у безлимитного вендора» купите у торговца — их в Auctionator добавлять не нужно.${unknown}<br>
         ${copied
           ? `Список <b>уже в буфере обмена</b> — останется нажать <code>Ctrl+V</code>. `
-          : `Нажмите «Скопировать», чтобы забрать список в буфер. `}
+          : (payload.text ? `Нажмите «Скопировать», чтобы забрать список в буфер. ` : `Список для аукциона пуст. `)}
         ${tail}`;
-      $("#modal-cost").textContent = payload.estimated_cost
-        ? "закупка по лимитам ≈ " + payload.estimated_cost_text
-        : "лимиты закупки не заданы";
+
+      const costBits = [];
+      if (payload.count) costBits.push("аукцион ≈ " + payload.estimated_cost_text);
+      if (payload.vendor_count) costBits.push("вендор " + payload.vendor_cost_text);
+      $("#modal-cost").textContent = costBits.length ? costBits.join(" · ") : "цены не заданы";
     } catch (error) {
       currentText = "";
+      currentVendorText = "";
       $("#result").value = "// " + error.message;
+      $("#vendor-block").style.display = "none";
+      $("#auction-caption").style.display = "none";
       $("#modal-hint").textContent = "Не удалось сформировать список: " + error.message;
     }
   }
@@ -1275,8 +1411,12 @@
   }
 
   $("#copy-btn").addEventListener("click", () => {
-    if (!currentText) { showToast("Список ещё не готов", true); return; }
+    if (!currentText) { showToast("Список для аукциона пуст — все реагенты у вендора", true); return; }
     copyText(currentText);
+  });
+  $("#vendor-copy").addEventListener("click", () => {
+    if (!currentVendorText) { showToast("Список вендора пуст", true); return; }
+    copyText(currentVendorText);
   });
   $("#download-btn").addEventListener("click", () => {
     if (!currentText) return;

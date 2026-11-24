@@ -1,0 +1,251 @@
+{
+  "_comment": "Безлимитные вендорские реагенты WoW Forever: цена покупки у торговца в меди за 1 шт. Собрано автоматически из Wowhead (buyprice), правится руками.",
+  "_comment_2": "unlimited=false исключает предмет из расчёта. Для себестоимости берётся min(цена вендора, minBuyout TSM).",
+  "generated_at": "2026-11-24T21:31:55Z",
+  "source": "wowhead: WH.Gatherer.addData(3,16) + XML fallback",
+  "items": {
+    "3713": {
+      "name": "Ароматные специи",
+      "name_en": "Soothing Spices",
+      "price": 160,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Ароматные специи — безлимит"
+    },
+    "2894": {
+      "name": "Болтливое пиво",
+      "name_en": "Rhapsody Malt",
+      "price": 50,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Болтливое пиво — безлимит у трактирщиков"
+    },
+    "1205": {
+      "name": "Дынный сок",
+      "name_en": "Melon Juice",
+      "price": 500,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Дынный сок — безлимит у трактирщиков"
+    },
+    "3357": {
+      "name": "Жизнекорень",
+      "name_en": "Liferoot",
+      "price": 300,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Жизнекорень — у вендора ограниченный запас"
+    },
+    "11291": {
+      "name": "Звездная древесина",
+      "name_en": "Star Wood",
+      "price": 4500,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Звездная древесина — у вендора ограниченный запас"
+    },
+    "1179": {
+      "name": "Ледяное молоко",
+      "name_en": "Ice Cold Milk",
+      "price": 125,
+      "unlimited": true,
+      "verified": true,
+      "source": "wowhead-adddata",
+      "note": "Ледяное молоко — безлимит (проверено: запас ∞)"
+    },
+    "785": {
+      "name": "Магороза",
+      "name_en": "Mageroyal",
+      "price": 80,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Магороза — у вендора ограниченный запас"
+    },
+    "2596": {
+      "name": "Мех дворфийского эля",
+      "name_en": "Skin of Dwarven Stout",
+      "price": 120,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Мех дворфийского эля — безлимит у трактирщиков"
+    },
+    "2447": {
+      "name": "Мироцвет",
+      "name_en": "Peacebloom",
+      "price": 40,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Мироцвет — у вендора ограниченный запас"
+    },
+    "159": {
+      "name": "Освежающая ключевая вода",
+      "name_en": "Refreshing Spring Water",
+      "price": 25,
+      "unlimited": true,
+      "verified": true,
+      "source": "wowhead-adddata",
+      "note": "Освежающая ключевая вода — безлимит (проверено: запас ∞)"
+    },
+    "2692": {
+      "name": "Острые специи",
+      "name_en": "Hot Spices",
+      "price": 40,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Острые специи — безлимит"
+    },
+    "17196": {
+      "name": "Праздничная выпивка",
+      "name_en": "",
+      "price": 50,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Праздничная выпивка — сезонный вендор, безлимит в праздник"
+    },
+    "17194": {
+      "name": "Праздничные пряности",
+      "name_en": "",
+      "price": 10,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Праздничные пряности — сезонный вендор, безлимит в праздник"
+    },
+    "4470": {
+      "name": "Простая древесина",
+      "name_en": "Simple Wood",
+      "price": 38,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Простая древесина — безлимит у торговцев товарами"
+    },
+    "10284": {
+      "name": "Простая мука",
+      "name_en": "Simple Flour",
+      "price": 200,
+      "unlimited": true,
+      "verified": true,
+      "source": "wowhead-adddata",
+      "note": "Простая мука — безлимит у торговцев товарами"
+    },
+    "2678": {
+      "name": "Пряные травы",
+      "name_en": "Mild Spices",
+      "price": 10,
+      "unlimited": true,
+      "verified": true,
+      "source": "wowhead-adddata",
+      "note": "Пряные травы — безлимит (проверено: запас ∞)"
+    },
+    "8766": {
+      "name": "Славная утренняя роса",
+      "name_en": "Morning Glory Dew",
+      "price": 4000,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Славная утренняя роса — безлимит у трактирщиков"
+    },
+    "1708": {
+      "name": "Сладкий нектар",
+      "name_en": "Sweet Nectar",
+      "price": 1000,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сладкий нектар — безлимит у трактирщиков"
+    },
+    "1645": {
+      "name": "Сок луноягоды",
+      "name_en": "Moonberry Juice",
+      "price": 2000,
+      "unlimited": true,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сок луноягоды — безлимит у трактирщиков"
+    },
+    "4536": {
+      "name": "Спелое красное яблоко",
+      "name_en": "Shiny Red Apple",
+      "price": 25,
+      "unlimited": true,
+      "verified": true,
+      "source": "wowhead-adddata",
+      "note": "Спелое красное яблоко — безлимит (проверено: запас ∞)"
+    },
+    "6308": {
+      "name": "Сырая зубатка ощетиненная",
+      "name_en": "Raw Bristle Whisker Catfish",
+      "price": 40,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сырая зубатка ощетиненная — рыбный вендор, ограниченный запас"
+    },
+    "6362": {
+      "name": "Сырая каменношкурая треска",
+      "name_en": "Raw Rockscale Cod",
+      "price": 80,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сырая каменношкурая треска — рыбный вендор, ограниченный запас"
+    },
+    "6303": {
+      "name": "Сырая скользкая скумбрия",
+      "name_en": "Raw Slitherskin Mackerel",
+      "price": 20,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сырая скользкая скумбрия — рыбный вендор, ограниченный запас"
+    },
+    "8959": {
+      "name": "Сырой гребнеплавничный палтус",
+      "name_en": "Raw Spinefin Halibut",
+      "price": 3200,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сырой гребнеплавничный палтус — рыбный вендор, ограниченный запас"
+    },
+    "6289": {
+      "name": "Сырой илистый луциан",
+      "name_en": "Raw Longjaw Mud Snapper",
+      "price": 20,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сырой илистый луциан — рыбный вендор, ограниченный запас"
+    },
+    "4603": {
+      "name": "Сырой пятнистый желтохвост",
+      "name_en": "Raw Spotted Yellowtail",
+      "price": 80,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Сырой пятнистый желтохвост — рыбный вендор, ограниченный запас"
+    },
+    "272941": {
+      "name": "Толстые бревна",
+      "name_en": "Thick Logs",
+      "price": 200000,
+      "unlimited": false,
+      "verified": false,
+      "source": "wowhead-adddata",
+      "note": "Толстые бревна — дорогой предмет, безлимит не подтверждён"
+    }
+  }
+}

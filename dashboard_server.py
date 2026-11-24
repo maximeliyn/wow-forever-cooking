@@ -30,6 +30,7 @@ from urllib.parse import urlparse, parse_qs
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 RECIPES_FILE = os.path.join(BASE_DIR, "recipes_cache.json")
 VENDOR_FILE = os.path.join(BASE_DIR, "vendor_prices.json")
+VENDOR_MATERIALS_FILE = os.path.join(BASE_DIR, "vendor_materials.json")
 PRICES_CACHE = os.path.join(BASE_DIR, "tsm_prices_cache.json")
 INDEX_FILE = os.path.join(BASE_DIR, "index.html")
 
@@ -134,28 +135,69 @@ def load_recipes():
 
 
 def load_vendor_prices():
-    if not os.path.exists(VENDOR_FILE):
-        return {}
-    try:
-        with open(VENDOR_FILE, "r", encoding="utf-8") as handle:
-            raw = json.load(handle)
-    except Exception as exc:
-        print("[вендор] не удалось прочитать vendor_prices.json: %s" % exc)
-        return {}
+    """Цены безлимитных вендорских реагентов.
 
-    items = raw.get("items", raw) if isinstance(raw, dict) else {}
+    Основной источник — vendor_materials.json (собрано из Wowhead buyprice).
+    Берутся только записи с unlimited != false: у ограниченных вендоров
+    нельзя докупить нужный объём, поэтому их цена не должна влиять на расчёт.
+    """
     result = {}
-    for item_id, value in items.items():
-        if str(item_id).startswith("_"):
-            continue
-        if isinstance(value, dict):
-            price = to_num(value.get("price"))
-            name = value.get("name") or ""
-        else:
-            price = to_num(value)
-            name = ""
-        if price > 0:
-            result[str(item_id)] = {"price": price, "name": name}
+    generated_at = None
+    if os.path.exists(VENDOR_MATERIALS_FILE):
+        try:
+            with open(VENDOR_MATERIALS_FILE, "r", encoding="utf-8") as handle:
+                raw = json.load(handle)
+            generated_at = raw.get("generated_at")
+            items = raw.get("items", raw) if isinstance(raw, dict) else {}
+            skipped = 0
+            for item_id, value in items.items():
+                if str(item_id).startswith("_"):
+                    continue
+                if not isinstance(value, dict):
+                    continue
+                price = to_num(value.get("price"))
+                if price <= 0:
+                    continue
+                if value.get("unlimited") is False:
+                    skipped += 1
+                    continue
+                result[str(item_id)] = {
+                    "price": price,
+                    "name": value.get("name") or "",
+                    "name_en": value.get("name_en") or "",
+                    "note": value.get("note") or "",
+                    "verified": bool(value.get("verified")),
+                }
+            print("[вендор] vendor_materials.json: %d безлимитных, %d ограниченных пропущено%s" % (
+                len(result), skipped, " (от %s)" % generated_at if generated_at else ""))
+        except Exception as exc:
+            print("[вендор] не удалось прочитать vendor_materials.json: %s" % exc)
+
+    # Ручной файл остаётся запасным вариантом: добавляем только те id, которых нет выше.
+    if os.path.exists(VENDOR_FILE):
+        try:
+            with open(VENDOR_FILE, "r", encoding="utf-8") as handle:
+                raw = json.load(handle)
+            items = raw.get("items", raw) if isinstance(raw, dict) else {}
+            added = 0
+            for item_id, value in items.items():
+                if str(item_id).startswith("_") or str(item_id) in result:
+                    continue
+                if isinstance(value, dict):
+                    price = to_num(value.get("price"))
+                    name = value.get("name") or ""
+                else:
+                    price = to_num(value)
+                    name = ""
+                if price > 0:
+                    result[str(item_id)] = {"price": price, "name": name, "name_en": "",
+                                            "note": "vendor_prices.json", "verified": False}
+                    added += 1
+            if added:
+                print("[вендор] из vendor_prices.json добавлено: %d" % added)
+        except Exception as exc:
+            print("[вендор] не удалось прочитать vendor_prices.json: %s" % exc)
+
     return result
 
 
@@ -369,6 +411,8 @@ def compute_dish(recipe, prices, vendor_prices):
     reagents = []
     cost_total = 0
     cost_market_total = 0
+    cost_vendor_total = 0
+    cost_auction_total = 0
     cost_complete = True
     unknown = []
 
@@ -379,10 +423,12 @@ def compute_dish(recipe, prices, vendor_prices):
         ah_min = int(round(to_num(entry.get("minBuyout"))))
         ah_market = int(round(to_num(entry.get("marketValue"))))
         vendor = vendor_prices.get(rid)
+        vendor_price = int(round(vendor["price"])) if vendor and vendor.get("price") else None
 
+        # Всегда берём то, что дешевле: безлимитный вендор или аукцион.
         candidates = []
-        if vendor and vendor["price"] > 0:
-            candidates.append((vendor["price"], "vendor"))
+        if vendor_price and vendor_price > 0:
+            candidates.append((vendor_price, "vendor"))
         if ah_min > 0:
             candidates.append((ah_min, "auction"))
         elif ah_market > 0:
@@ -398,15 +444,22 @@ def compute_dish(recipe, prices, vendor_prices):
         sold_total = (unit_price or 0) * qty
         cost_total += sold_total
         cost_market_total += (ah_market if ah_market > 0 else (unit_price or 0)) * qty
+        if source == "vendor":
+            cost_vendor_total += sold_total
+        elif source in ("auction", "auction_market"):
+            cost_auction_total += sold_total
 
         reagents.append({
             "id": rid,
             "name": reagent.get("name") or ("Item %s" % rid),
-            "name_en": entry.get("name") or "",
+            "name_en": entry.get("name") or ((vendor or {}).get("name_en") or ""),
             "qty": qty,
             "unit_price": None if unit_price is None else int(unit_price),
             "unit_price_source": source,
-            "vendor_price": (vendor["price"] if vendor else None),
+            "price_label": "Вендор" if source == "vendor"
+                           else ("Аукцион" if source in ("auction", "auction_market") else "нет цены"),
+            "vendor_price": vendor_price,
+            "vendor_note": (vendor or {}).get("note") or "",
             "ah_min": ah_min or None,
             "ah_market": ah_market or None,
             "total": int(sold_total),
@@ -462,6 +515,8 @@ def compute_dish(recipe, prices, vendor_prices):
         "craft_qty": craft_qty,
         "cost": int(round(cost_total)),
         "cost_market": int(round(cost_market_total)),
+        "cost_vendor": int(round(cost_vendor_total)),
+        "cost_auction": int(round(cost_auction_total)),
         "cost_complete": cost_complete,
         "unknown_reagents": unknown,
         "vendor_unit": vendor_unit,
@@ -525,7 +580,8 @@ def build_shopping_list(items, fmt, list_name):
 
 
 def max_buy_price(reagent):
-    base = reagent.get("ah_min") or reagent.get("ah_market") or reagent.get("vendor_price") or 0
+    """Максимальная цена закупки на аукционе (запас +20% к minBuyout/marketValue)."""
+    base = reagent.get("ah_min") or reagent.get("ah_market") or 0
     if base <= 0:
         return 0
     price = base * PRICE_NAP_FACTOR
@@ -533,34 +589,102 @@ def max_buy_price(reagent):
     return int(round(price / rounding) * rounding) or int(round(price))
 
 
-def shopping_items_from_dish(dish, multiplier, lang):
-    items = []
-    for reagent in dish["reagents"]:
-        name = reagent["name_en"] if (lang == "en" and reagent.get("name_en")) else reagent["name"]
-        items.append({
+def reagent_display_name(reagent, lang):
+    if lang == "en" and reagent.get("name_en"):
+        return reagent["name_en"]
+    return reagent["name"]
+
+
+def split_shopping_items(reagents, multiplier, lang):
+    """Делит реагенты на закупку на аукционе и докупку у безлимитного вендора."""
+    auction_items = []
+    vendor_items = []
+    unknown_items = []
+    for reagent in reagents:
+        qty = int(reagent.get("qty") or 1) * multiplier
+        name = reagent_display_name(reagent, lang)
+        source = reagent.get("unit_price_source")
+        base = {
             "id": reagent["id"],
             "name": name,
-            "qty": reagent["qty"] * multiplier,
-            "max_price": max_buy_price(reagent),
-            "unit": reagent["unit_price"],
-        })
-    return items
+            "qty": qty,
+            "source": source,
+        }
+        if source in ("auction", "auction_market"):
+            base["max_price"] = max_buy_price(reagent)
+            base["unit"] = reagent.get("unit_price")
+            base["unit_price"] = reagent.get("unit_price")
+            auction_items.append(base)
+        elif source == "vendor":
+            unit_price = int(reagent.get("unit_price") or 0)
+            base["unit_price"] = unit_price
+            base["unit"] = unit_price
+            base["total"] = unit_price * qty
+            base["note"] = reagent.get("vendor_note") or ""
+            vendor_items.append(base)
+        else:
+            unknown_items.append(base)
+    return auction_items, vendor_items, unknown_items
 
 
-def shopping_items_all(data, multiplier, lang):
+def merge_shopping_items(items_list):
     merged = {}
-    for dish in data["dishes"]:
-        if not dish["cost_complete"] or dish["vendor_profit"] <= 0:
-            continue
-        for item in shopping_items_from_dish(dish, multiplier, lang):
+    for items in items_list:
+        for item in items:
             key = item["id"]
             if key not in merged:
                 merged[key] = dict(item)
+                continue
+            merged[key]["qty"] += item["qty"]
+            if item.get("source") == "vendor":
+                merged[key]["total"] = merged[key]["unit_price"] * merged[key]["qty"]
             else:
-                merged[key]["qty"] += item["qty"]
-                prices = [p for p in (merged[key]["max_price"], item["max_price"]) if p > 0]
+                prices = [p for p in (merged[key].get("max_price"), item.get("max_price")) if p and p > 0]
                 merged[key]["max_price"] = min(prices) if prices else 0
-    return sorted(merged.values(), key=lambda entry: (-entry["max_price"] * entry["qty"], entry["name"]))
+    return list(merged.values())
+
+
+def shopping_items_from_dish(dish, multiplier, lang):
+    auction_items, vendor_items, unknown_items = split_shopping_items(dish["reagents"], multiplier, lang)
+    return auction_items, vendor_items, unknown_items
+
+
+def shopping_items_all(data, multiplier, lang):
+    """Все реагенты профитных блюд: отдельно аукцион, отдельно безлимитный вендор."""
+    auction_chunks = []
+    vendor_chunks = []
+    unknown_chunks = []
+    for dish in data["dishes"]:
+        if not dish["cost_complete"] or dish["vendor_profit"] <= 0:
+            continue
+        auction_items, vendor_items, unknown_items = shopping_items_from_dish(dish, multiplier, lang)
+        auction_chunks.append(auction_items)
+        vendor_chunks.append(vendor_items)
+        unknown_chunks.append(unknown_items)
+
+    auction_items = merge_shopping_items(auction_chunks)
+    vendor_items = merge_shopping_items(vendor_chunks)
+    unknown_items = merge_shopping_items(unknown_chunks)
+
+    auction_items.sort(key=lambda entry: (-(entry.get("max_price") or 0) * entry["qty"], entry["name"]))
+    vendor_items.sort(key=lambda entry: (-(entry.get("total") or 0), entry["name"]))
+    unknown_items.sort(key=lambda entry: entry["name"])
+    return auction_items, vendor_items, unknown_items
+
+
+def build_vendor_text(vendor_items):
+    """Компактный текст для докупки у безлимитного вендора."""
+    if not vendor_items:
+        return ""
+    lines = ["Докупить у безлимитного вендора:"]
+    total = 0
+    for item in vendor_items:
+        cost = int(item.get("total") or 0)
+        total += cost
+        lines.append("- %s — %d шт. (%s/шт., всего %s)" % (
+            item["name"], item["qty"], money_text(item.get("unit_price") or 0), money_text(cost)))
+    lines.append("Итого у вендора: %s" % money_text(total))
+    return "\n".join(lines)
 
 
 # ----------------------------------------------------------------------------
@@ -633,6 +757,10 @@ class Dashboard(object):
                     "ah_commission_pct": int(AH_COMMISSION * 100),
                     "refresh_hours": REFRESH_HOURS,
                     "price_nap_factor": PRICE_NAP_FACTOR,
+                },
+                "vendor": {
+                    "source": "vendor_materials.json",
+                    "unlimited": len(vendor_prices),
                 },
                 "stats": {
                     "total": len(dishes),
@@ -807,7 +935,7 @@ class Handler(BaseHTTPRequestHandler):
 
         data = DASH.data or DASH.rebuild()
         if scope == "all":
-            items = shopping_items_all(data, multiplier, lang)
+            auction_items, vendor_items, unknown_items = shopping_items_all(data, multiplier, lang)
             list_name = "Кулинария: профит вендору"
         elif scope == "reagent":
             reagent_id = (query.get("id") or [""])[0]
@@ -821,32 +949,30 @@ class Handler(BaseHTTPRequestHandler):
                     break
             if not found:
                 return self._json({"error": "реагент не найден"}, 404)
-            name = found["name_en"] if (lang == "en" and found.get("name_en")) else found["name"]
-            items = [{
-                "id": found["id"],
-                "name": name,
-                "qty": multiplier,
-                "max_price": max_buy_price(found),
-                "unit": found["unit_price"],
-            }]
-            list_name = "Кулинария: %s" % name
+            auction_items, vendor_items, unknown_items = split_shopping_items([found], multiplier, lang)
+            list_name = "Кулинария: %s" % reagent_display_name(found, lang)
         else:
             dish_id = (query.get("id") or [""])[0]
             dish = next((entry for entry in data["dishes"] if entry["id"] == dish_id), None)
             if not dish:
                 return self._json({"error": "блюдо не найдено"}, 404)
-            items = shopping_items_from_dish(dish, multiplier, lang)
+            auction_items, vendor_items, unknown_items = shopping_items_from_dish(dish, multiplier, lang)
             list_name = "Кулинария: %s" % dish["name"]
 
-        if not items:
+        if not auction_items and not vendor_items and not unknown_items:
             return self._json({"error": "нечего импортировать"}, 400)
 
-        text = build_shopping_list(items, fmt, list_name)
-        total_cost = sum(item["qty"] * item["max_price"] for item in items if item["max_price"])
+        text = build_shopping_list(auction_items, fmt, list_name) if auction_items else ""
+        total_cost = sum(item["qty"] * item["max_price"] for item in auction_items if item.get("max_price"))
+        vendor_cost = sum(int(item.get("total") or 0) for item in vendor_items)
         return self._json({
             "text": text,
-            "items": items,
-            "count": len(items),
+            "items": auction_items,
+            "vendor_items": vendor_items,
+            "vendor_text": build_vendor_text(vendor_items),
+            "unknown_items": unknown_items,
+            "count": len(auction_items),
+            "vendor_count": len(vendor_items),
             "list_name": list_name,
             "format": fmt,
             "format_title": FORMATS[fmt]["title"],
@@ -854,6 +980,10 @@ class Handler(BaseHTTPRequestHandler):
             "multiplier": multiplier,
             "estimated_cost": int(total_cost),
             "estimated_cost_text": money_text(total_cost),
+            "vendor_cost": int(vendor_cost),
+            "vendor_cost_text": money_text(vendor_cost),
+            "total_cost": int(total_cost + vendor_cost),
+            "total_cost_text": money_text(total_cost + vendor_cost),
         })
 
     def _handle_export(self, query):
@@ -884,7 +1014,8 @@ class Handler(BaseHTTPRequestHandler):
                 "Ликвидность": dish["liquidity"]["label"],
                 "Оценка выкупа": dish["liquidity"]["score"],
                 "Вердикт": dish["verdict"],
-                "Реагенты": ", ".join("%s x%d (%s)" % (r["name"], r["qty"], money_text(r["unit_price"]))
+                "Реагенты": ", ".join("%s x%d (%s, %s)" % (r["name"], r["qty"], money_text(r["unit_price"]),
+                                                           r.get("price_label") or "нет цены")
                                        for r in dish["reagents"]),
             })
         body = "\ufeff" + buffer.getvalue()

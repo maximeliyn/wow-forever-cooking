@@ -2,7 +2,7 @@
   {
     "dish_id": "7676",
     "dish_name": "Артишоковый чай",
-    "skill": 1,
+    "skill": 60,
     "craft_qty": 1,
     "vendor_copper": 30,
     "reagents": [
@@ -16,7 +16,8 @@
         "name": "Освежающая ключевая вода",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "9513"
   },
   {
     "dish_id": "6290",
@@ -30,31 +31,33 @@
         "name": "Сырая блестящая рыбка",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7751"
   },
   {
     "dish_id": "250070",
     "dish_name": "Брускетта с медвежатиной",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 25,
     "reagents": [
       {
         "id": "3730",
         "name": "Мясо большого медведя",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250147"
   },
   {
     "dish_id": "2682",
     "dish_name": "Вареная клешня краба",
-    "skill": 1,
+    "skill": 85,
     "craft_qty": 1,
     "vendor_copper": 25,
     "reagents": [
@@ -68,60 +71,63 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2545"
   },
   {
     "dish_id": "238642",
     "dish_name": "Великое омаровое пиршество",
-    "skill": 1,
+    "skill": 280,
     "craft_qty": 1,
     "vendor_copper": 250,
     "reagents": [
       {
         "id": "13888",
         "name": "Темноклешневый омар",
-        "qty": 1
+        "qty": 12
       },
       {
         "id": "3712",
         "name": "Черепашье мясо",
-        "qty": 1
+        "qty": 4
       },
       {
         "id": "3404",
         "name": "Крыло канюка",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "239017",
         "name": "Изумительные приправы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1225763"
   },
   {
     "dish_id": "250068",
     "dish_name": "Вкусная черепашья похлебка",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 6,
     "reagents": [
       {
         "id": "3712",
         "name": "Черепашье мясо",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250145"
   },
   {
     "dish_id": "250079",
     "dish_name": "Вкусные кусочки мяса ящера",
-    "skill": 1,
+    "skill": 25,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
@@ -133,33 +139,35 @@
       {
         "id": "2678",
         "name": "Пряные травы",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250156"
   },
   {
     "dish_id": "250065",
     "dish_name": "Вкусные сэндвичи с олениной",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 150,
     "reagents": [
       {
         "id": "5471",
         "name": "Оленина",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250142"
   },
   {
     "dish_id": "2679",
     "dish_name": "Волчатина на углях",
-    "skill": 1,
+    "skill": 45,
     "craft_qty": 1,
     "vendor_copper": 5,
     "reagents": [
@@ -168,12 +176,13 @@
         "name": "Жилистая волчатина",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2538"
   },
   {
     "dish_id": "6038",
     "dish_name": "Гигантский жареный моллюск",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 312,
     "reagents": [
@@ -187,12 +196,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7213"
   },
   {
     "dish_id": "17198",
     "dish_name": "Гоголь-моголь",
-    "skill": 1,
+    "skill": 35,
     "craft_qty": 1,
     "vendor_copper": 9,
     "reagents": [
@@ -216,12 +226,13 @@
         "name": "Праздничные пряности",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "21144"
   },
   {
     "dish_id": "1082",
     "dish_name": "Гуляш по-красногорски",
-    "skill": 1,
+    "skill": 100,
     "craft_qty": 1,
     "vendor_copper": 150,
     "reagents": [
@@ -235,12 +246,13 @@
         "name": "Жесткое мясо кондора",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2547"
   },
   {
     "dish_id": "6316",
     "dish_name": "Деликатес из бешенки",
-    "skill": 1,
+    "skill": 50,
     "craft_qty": 1,
     "vendor_copper": 3,
     "reagents": [
@@ -254,12 +266,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7754"
   },
   {
     "dish_id": "21217",
     "dish_name": "Деликатес из шалфокуня",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 125,
     "reagents": [
@@ -273,12 +286,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "25954"
   },
   {
     "dish_id": "18254",
     "dish_name": "Десерт из корня Рун-Тум",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 18,
     "reagents": [
@@ -292,12 +306,13 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "22761"
   },
   {
     "dish_id": "12213",
     "dish_name": "Десерт из мертвечины",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -311,12 +326,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15863"
   },
   {
     "dish_id": "5473",
     "dish_name": "Десерт из скорпида",
-    "skill": 1,
+    "skill": 20,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
@@ -325,31 +341,33 @@
         "name": "Жало скорпида",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6413"
   },
   {
     "dish_id": "250071",
     "dish_name": "Дымящийся стейк из оленины",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
       {
         "id": "5471",
         "name": "Оленина",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250148"
   },
   {
     "dish_id": "2681",
     "dish_name": "Жареная кабанина",
-    "skill": 1,
+    "skill": 45,
     "craft_qty": 1,
     "vendor_copper": 6,
     "reagents": [
@@ -358,13 +376,14 @@
         "name": "Кусок кабанины",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2540"
   },
   {
     "dish_id": "5474",
     "dish_name": "Жареное мясо кодо",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 35,
+    "craft_qty": 2,
     "vendor_copper": 9,
     "reagents": [
       {
@@ -377,12 +396,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6414"
   },
   {
     "dish_id": "12210",
     "dish_name": "Жареный ящер",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -396,36 +416,38 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15855"
   },
   {
     "dish_id": "279982",
     "dish_name": "Железная печь",
-    "skill": 1,
+    "skill": 300,
     "craft_qty": 1,
     "vendor_copper": 0,
     "reagents": [
       {
         "id": "10284",
         "name": "Простая мука",
-        "qty": 1
+        "qty": 10
       },
       {
         "id": "159",
         "name": "Освежающая ключевая вода",
-        "qty": 1
+        "qty": 5
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1263067"
   },
   {
     "dish_id": "12214",
     "dish_name": "Загадочная похлебка",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -439,12 +461,13 @@
         "name": "Мех дворфийского эля",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15865"
   },
   {
     "dish_id": "6657",
     "dish_name": "Загадочное острое лакомство",
-    "skill": 1,
+    "skill": 85,
     "craft_qty": 1,
     "vendor_copper": 5,
     "reagents": [
@@ -458,12 +481,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "8238"
   },
   {
     "dish_id": "13935",
     "dish_name": "Запеченный лосось",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
@@ -477,12 +501,13 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18247"
   },
   {
     "dish_id": "4593",
     "dish_name": "Зубатка ощетиненная",
-    "skill": 1,
+    "skill": 100,
     "craft_qty": 1,
     "vendor_copper": 4,
     "reagents": [
@@ -491,12 +516,13 @@
         "name": "Сырая зубатка ощетиненная",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7755"
   },
   {
     "dish_id": "4592",
     "dish_name": "Илистый луциан",
-    "skill": 1,
+    "skill": 50,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -505,7 +531,8 @@
         "name": "Сырой илистый луциан",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7753"
   },
   {
     "dish_id": "17197",
@@ -524,12 +551,13 @@
         "name": "Праздничные пряности",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "21143"
   },
   {
     "dish_id": "2888",
     "dish_name": "Кабаньи ребрышки в пиве",
-    "skill": 1,
+    "skill": 25,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
@@ -543,12 +571,13 @@
         "name": "Болтливое пиво",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2795"
   },
   {
     "dish_id": "4594",
     "dish_name": "Каменношкурая треска",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 6,
     "reagents": [
@@ -557,12 +586,13 @@
         "name": "Сырая каменношкурая треска",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7828"
   },
   {
     "dish_id": "6890",
     "dish_name": "Копченая медвежатина",
-    "skill": 1,
+    "skill": 40,
     "craft_qty": 1,
     "vendor_copper": 6,
     "reagents": [
@@ -571,12 +601,13 @@
         "name": "Медвежатина",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "8607"
   },
   {
     "dish_id": "20452",
     "dish_name": "Копченые пустынные клецки",
-    "skill": 1,
+    "skill": 325,
     "craft_qty": 1,
     "vendor_copper": 250,
     "reagents": [
@@ -590,12 +621,13 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "24801"
   },
   {
     "dish_id": "21072",
     "dish_name": "Копченый шалфокунь",
-    "skill": 1,
+    "skill": 80,
     "craft_qty": 1,
     "vendor_copper": 40,
     "reagents": [
@@ -609,12 +641,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "25704"
   },
   {
     "dish_id": "249866",
     "dish_name": "Королевский чай",
-    "skill": 1,
+    "skill": 100,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -626,14 +659,15 @@
       {
         "id": "785",
         "name": "Магороза",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1249958"
   },
   {
     "dish_id": "263512",
     "dish_name": "Крабьи дольки",
-    "skill": 1,
+    "skill": 35,
     "craft_qty": 1,
     "vendor_copper": 100,
     "reagents": [
@@ -647,13 +681,14 @@
         "name": "Простая мука",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1270635"
   },
   {
     "dish_id": "3220",
     "dish_name": "Кровяная колбаса",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 60,
+    "craft_qty": 2,
     "vendor_copper": 40,
     "reagents": [
       {
@@ -671,12 +706,13 @@
         "name": "Паучья лимфа",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3371"
   },
   {
     "dish_id": "286152",
     "dish_name": "Латная бронерыба",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 8,
     "reagents": [
@@ -690,50 +726,53 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1319313"
   },
   {
     "dish_id": "250081",
     "dish_name": "Лингвини из моллюсков",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
       {
         "id": "7974",
         "name": "Острое мясо моллюска",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250158"
   },
   {
     "dish_id": "250074",
     "dish_name": "Медвежья рулька",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 125,
     "reagents": [
       {
         "id": "3730",
         "name": "Мясо большого медведя",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250151"
   },
   {
     "dish_id": "249865",
     "dish_name": "Мирный чай",
-    "skill": 1,
+    "skill": 25,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -745,14 +784,15 @@
       {
         "id": "2447",
         "name": "Мироцвет",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1249957"
   },
   {
     "dish_id": "8364",
     "dish_name": "Мифрилоголовая форель",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 6,
     "reagents": [
@@ -761,12 +801,13 @@
         "name": "Сырая мифрилоголовая форель",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "20916"
   },
   {
     "dish_id": "13927",
     "dish_name": "Мощь-рыба в кляре",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 8,
     "reagents": [
@@ -780,12 +821,13 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18239"
   },
   {
     "dish_id": "249873",
     "dish_name": "Мрргл смурлзи",
-    "skill": 1,
+    "skill": 125,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -797,19 +839,20 @@
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "1468",
         "name": "Плавник мурлока",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1249965"
   },
   {
     "dish_id": "12217",
     "dish_name": "Мясо в соусе \"Дыхание дракона\"",
-    "skill": 1,
+    "skill": 200,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -828,12 +871,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15906"
   },
   {
     "dish_id": "279981",
     "dish_name": "Набор для разведения костра",
-    "skill": 1,
+    "skill": 20,
     "craft_qty": 1,
     "vendor_copper": 0,
     "reagents": [
@@ -842,12 +886,13 @@
         "name": "Простая древесина",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1229737"
   },
   {
     "dish_id": "279961",
     "dish_name": "Набор подмастерья для разведения костра",
-    "skill": 1,
+    "skill": 90,
     "craft_qty": 1,
     "vendor_copper": 0,
     "reagents": [
@@ -856,12 +901,13 @@
         "name": "Звездная древесина",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1283400"
   },
   {
     "dish_id": "279974",
     "dish_name": "Набор умельца для разведения костра",
-    "skill": 1,
+    "skill": 200,
     "craft_qty": 1,
     "vendor_copper": 0,
     "reagents": [
@@ -870,12 +916,13 @@
         "name": "Толстые бревна",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1291341"
   },
   {
     "dish_id": "3665",
     "dish_name": "Невероятно вкусный омлет",
-    "skill": 1,
+    "skill": 130,
     "craft_qty": 1,
     "vendor_copper": 150,
     "reagents": [
@@ -889,12 +936,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3376"
   },
   {
     "dish_id": "249874",
     "dish_name": "Окаменевший смузи",
-    "skill": 1,
+    "skill": 180,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -906,19 +954,20 @@
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "5637",
         "name": "Большой клык",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1249966"
   },
   {
     "dish_id": "250080",
     "dish_name": "Омлет на завтрак",
-    "skill": 1,
+    "skill": 75,
     "craft_qty": 1,
     "vendor_copper": 6,
     "reagents": [
@@ -930,14 +979,15 @@
       {
         "id": "2678",
         "name": "Пряные травы",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250157"
   },
   {
     "dish_id": "13851",
     "dish_name": "Острая волчья грудинка",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 312,
     "reagents": [
@@ -951,12 +1001,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15856"
   },
   {
     "dish_id": "3727",
     "dish_name": "Острая отбивная из мяса льва",
-    "skill": 1,
+    "skill": 125,
     "craft_qty": 1,
     "vendor_copper": 125,
     "reagents": [
@@ -970,12 +1021,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3398"
   },
   {
     "dish_id": "12216",
     "dish_name": "Острое крабовое чили",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -987,14 +1039,15 @@
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "15915"
   },
   {
     "dish_id": "251525",
     "dish_name": "Острое лакомство из чудопера",
-    "skill": 1,
+    "skill": 85,
     "craft_qty": 1,
     "vendor_copper": 5,
     "reagents": [
@@ -1008,12 +1061,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1252566"
   },
   {
     "dish_id": "13929",
     "dish_name": "Острый копченый окунь",
-    "skill": 1,
+    "skill": 240,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
@@ -1025,15 +1079,16 @@
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "18242"
   },
   {
     "dish_id": "21023",
     "dish_name": "Отпадные химеровые отбивные Дирга",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 300,
+    "craft_qty": 5,
     "vendor_copper": 250,
     "reagents": [
       {
@@ -1056,12 +1111,13 @@
         "name": "Вырезка химерока",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "25659"
   },
   {
     "dish_id": "8957",
     "dish_name": "Палтус шипохвостый",
-    "skill": 1,
+    "skill": 210,
     "craft_qty": 1,
     "vendor_copper": 200,
     "reagents": [
@@ -1070,31 +1126,33 @@
         "name": "Сырой гребнеплавничный палтус",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1247741"
   },
   {
     "dish_id": "250066",
     "dish_name": "Парящая памплона",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 5,
     "reagents": [
       {
         "id": "3404",
         "name": "Крыло канюка",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250143"
   },
   {
     "dish_id": "250077",
     "dish_name": "Переперченный кусок мяса ящера",
-    "skill": 1,
+    "skill": 75,
     "craft_qty": 1,
     "vendor_copper": 9,
     "reagents": [
@@ -1106,40 +1164,42 @@
       {
         "id": "2678",
         "name": "Пряные травы",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1250154"
   },
   {
     "dish_id": "250069",
     "dish_name": "Перченое мясо с бока",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 25,
     "reagents": [
       {
         "id": "12203",
         "name": "Красное волчье мясо",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250146"
   },
   {
     "dish_id": "279957",
     "dish_name": "Пир Поваренка",
-    "skill": 1,
+    "skill": 140,
     "craft_qty": 1,
     "vendor_copper": 0,
     "reagents": [
       {
         "id": "12037",
         "name": "Таинственное мясо",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "12204",
@@ -1151,60 +1211,63 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1262978"
   },
   {
     "dish_id": "238641",
     "dish_name": "Пир из пестрожабра",
-    "skill": 1,
+    "skill": 280,
     "craft_qty": 1,
     "vendor_copper": 250,
     "reagents": [
       {
         "id": "4603",
         "name": "Сырой пятнистый желтохвост",
-        "qty": 1
+        "qty": 12
       },
       {
         "id": "12184",
         "name": "Плоть ящера",
-        "qty": 1
+        "qty": 4
       },
       {
         "id": "6362",
         "name": "Сырая каменношкурая треска",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "239017",
         "name": "Изумительные приправы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1225762"
   },
   {
     "dish_id": "3666",
     "dish_name": "Пирожок из паучатины",
-    "skill": 1,
+    "skill": 110,
     "craft_qty": 1,
     "vendor_copper": 100,
     "reagents": [
       {
         "id": "2251",
         "name": "Липкая паучья лапка",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3377"
   },
   {
     "dish_id": "724",
     "dish_name": "Пирожок из печени жутеклыка",
-    "skill": 1,
+    "skill": 50,
     "craft_qty": 1,
     "vendor_copper": 25,
     "reagents": [
@@ -1218,31 +1281,33 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2542"
   },
   {
     "dish_id": "267341",
     "dish_name": "Повидло \"Пальчики оближешь\"",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 200,
     "reagents": [
       {
         "id": "249796",
         "name": "Хиджальские ягоды",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1294014"
   },
   {
     "dish_id": "249876",
     "dish_name": "Порочный смузи",
-    "skill": 1,
+    "skill": 250,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -1254,20 +1319,21 @@
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 4
       },
       {
         "id": "8146",
         "name": "Гибельный коготь",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1249968"
   },
   {
     "dish_id": "5480",
     "dish_name": "Постная оленина",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 110,
+    "craft_qty": 2,
     "vendor_copper": 95,
     "reagents": [
       {
@@ -1278,14 +1344,15 @@
       {
         "id": "2678",
         "name": "Пряные травы",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "6419"
   },
   {
     "dish_id": "12209",
     "dish_name": "Постный стейк из волчатины",
-    "skill": 1,
+    "skill": 125,
     "craft_qty": 1,
     "vendor_copper": 95,
     "reagents": [
@@ -1299,13 +1366,14 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15853"
   },
   {
     "dish_id": "12212",
     "dish_name": "Похлебка \"Джунгли\"",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 175,
+    "craft_qty": 2,
     "vendor_copper": 300,
     "reagents": [
       {
@@ -1321,14 +1389,15 @@
       {
         "id": "4536",
         "name": "Спелое красное яблоко",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "15861"
   },
   {
     "dish_id": "733",
     "dish_name": "Похлебка Западного Края",
-    "skill": 1,
+    "skill": 75,
     "craft_qty": 1,
     "vendor_copper": 100,
     "reagents": [
@@ -1347,13 +1416,14 @@
         "name": "Рыло жутеклыка",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2543"
   },
   {
     "dish_id": "5477",
     "dish_name": "Похлебка из долгонога",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 50,
+    "craft_qty": 2,
     "vendor_copper": 18,
     "reagents": [
       {
@@ -1366,12 +1436,13 @@
         "name": "Спелое красное яблоко",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6416"
   },
   {
     "dish_id": "5526",
     "dish_name": "Похлебка из моллюсков",
-    "skill": 1,
+    "skill": 90,
     "craft_qty": 1,
     "vendor_copper": 75,
     "reagents": [
@@ -1390,12 +1461,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6501"
   },
   {
     "dish_id": "13933",
     "dish_name": "Похлебка из омаров",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 14,
     "reagents": [
@@ -1409,13 +1481,14 @@
         "name": "Освежающая ключевая вода",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18245"
   },
   {
     "dish_id": "5478",
     "dish_name": "Похлебка из пещерной крысы",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 90,
+    "craft_qty": 2,
     "vendor_copper": 70,
     "reagents": [
       {
@@ -1423,31 +1496,33 @@
         "name": "Пещерная крыса",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6417"
   },
   {
     "dish_id": "1017",
     "dish_name": "Приправленная котлета из волчатины",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 100,
+    "craft_qty": 3,
     "vendor_copper": 100,
     "reagents": [
       {
         "id": "1015",
         "name": "Постный волчий бок",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2678",
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2549"
   },
   {
     "dish_id": "249875",
     "dish_name": "Пряный смузи",
-    "skill": 1,
+    "skill": 200,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -1459,19 +1534,20 @@
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "4402",
         "name": "Малая пламенная железа",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1249967"
   },
   {
     "dish_id": "5095",
     "dish_name": "Радужный тунец",
-    "skill": 1,
+    "skill": 50,
     "craft_qty": 1,
     "vendor_copper": 3,
     "reagents": [
@@ -1480,64 +1556,68 @@
         "name": "Сырой радужный тунец",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7827"
   },
   {
     "dish_id": "238639",
     "dish_name": "Рассветный омлет",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 250,
+    "craft_qty": 2,
     "vendor_copper": 250,
     "reagents": [
       {
         "id": "12207",
         "name": "Гигантское яйцо",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "239016",
         "name": "Освященная соль",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1225760"
   },
   {
     "dish_id": "250073",
     "dish_name": "Ребрышки разъяренного ящера",
-    "skill": 1,
+    "skill": 180,
     "craft_qty": 1,
     "vendor_copper": 125,
     "reagents": [
       {
         "id": "12184",
         "name": "Плоть ящера",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 3
       }
-    ]
+    ],
+    "spell_id": "1250150"
   },
   {
     "dish_id": "250076",
     "dish_name": "Рулеты из мяса ящера",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
       {
         "id": "12184",
         "name": "Плоть ящера",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250153"
   },
   {
     "dish_id": "787",
@@ -1551,12 +1631,13 @@
         "name": "Сырая скользкая скумбрия",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "7752"
   },
   {
     "dish_id": "249872",
     "dish_name": "Слизистый смузи",
-    "skill": 1,
+    "skill": 100,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -1568,26 +1649,27 @@
       {
         "id": "2678",
         "name": "Пряные травы",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "3174",
         "name": "Паучья лимфа",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1249964"
   },
   {
     "dish_id": "274971",
     "dish_name": "Соленый суп из морепродуктов",
-    "skill": 1,
+    "skill": 200,
     "craft_qty": 1,
     "vendor_copper": 12,
     "reagents": [
       {
         "id": "730",
         "name": "Глаз мурлока",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "12206",
@@ -1599,12 +1681,13 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1295805"
   },
   {
     "dish_id": "249869",
     "dish_name": "Солнечный чай",
-    "skill": 1,
+    "skill": 200,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -1616,33 +1699,35 @@
       {
         "id": "8838",
         "name": "Солнечник",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1249961"
   },
   {
     "dish_id": "2685",
     "dish_name": "Сочные свиные ребрышки",
-    "skill": 1,
+    "skill": 110,
     "craft_qty": 1,
     "vendor_copper": 75,
     "reagents": [
       {
         "id": "2677",
         "name": "Ребра вепря",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2548"
   },
   {
     "dish_id": "18045",
     "dish_name": "Сочный стейк из волчатины",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -1656,31 +1741,33 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "22480"
   },
   {
     "dish_id": "274976",
     "dish_name": "Старый добрый бледноклык",
-    "skill": 1,
+    "skill": 185,
     "craft_qty": 1,
     "vendor_copper": 75,
     "reagents": [
       {
         "id": "769",
         "name": "Кусок кабанины",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2678",
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1295834"
   },
   {
     "dish_id": "3662",
     "dish_name": "Стейк из кроколиска",
-    "skill": 1,
+    "skill": 80,
     "craft_qty": 1,
     "vendor_copper": 25,
     "reagents": [
@@ -1694,12 +1781,13 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3370"
   },
   {
     "dish_id": "13934",
     "dish_name": "Стейк из мощь-рыбы",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 18,
     "reagents": [
@@ -1718,12 +1806,13 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18246"
   },
   {
     "dish_id": "3726",
     "dish_name": "Стейк из мяса большого медведя",
-    "skill": 1,
+    "skill": 110,
     "craft_qty": 1,
     "vendor_copper": 125,
     "reagents": [
@@ -1737,31 +1826,33 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3397"
   },
   {
     "dish_id": "250072",
     "dish_name": "Стейк молниеносного удара",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 40,
     "reagents": [
       {
         "id": "12202",
         "name": "Мясо тигра",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1250149"
   },
   {
     "dish_id": "3664",
     "dish_name": "Суп из кроколиска",
-    "skill": 1,
+    "skill": 120,
     "craft_qty": 1,
     "vendor_copper": 100,
     "reagents": [
@@ -1775,57 +1866,60 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3373"
   },
   {
     "dish_id": "3663",
     "dish_name": "Суп из плавников мурлока",
-    "skill": 1,
+    "skill": 90,
     "craft_qty": 1,
     "vendor_copper": 125,
     "reagents": [
       {
         "id": "1468",
         "name": "Плавник мурлока",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3372"
   },
   {
     "dish_id": "263509",
     "dish_name": "Суфле Небесной выси",
-    "skill": 1,
+    "skill": 25,
     "craft_qty": 1,
     "vendor_copper": 100,
     "reagents": [
       {
         "id": "6889",
         "name": "Небольшое яйцо",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "10284",
         "name": "Простая мука",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1270633"
   },
   {
     "dish_id": "12215",
     "dish_name": "Сытная похлебка из кодо",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 200,
+    "craft_qty": 2,
     "vendor_copper": 300,
     "reagents": [
       {
         "id": "12204",
         "name": "Мясо большого кодо",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "3713",
@@ -1837,50 +1931,53 @@
         "name": "Освежающая ключевая вода",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15910"
   },
   {
     "dish_id": "20074",
     "dish_name": "Сытная похлебка из кроколиска",
-    "skill": 1,
+    "skill": 150,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
       {
         "id": "3667",
         "name": "Нежное мясо кроколиска",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "24418"
   },
   {
     "dish_id": "250075",
     "dish_name": "Томленое мясо доисторического ящера",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
       {
         "id": "12184",
         "name": "Плоть ящера",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250152"
   },
   {
     "dish_id": "249868",
     "dish_name": "Тройной чай",
-    "skill": 1,
+    "skill": 180,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -1892,14 +1989,15 @@
       {
         "id": "3818",
         "name": "Бледнолист",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1249960"
   },
   {
     "dish_id": "13930",
     "dish_name": "Филе красноперки",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 5,
     "reagents": [
@@ -1908,64 +2006,68 @@
         "name": "Сырая краснобородка",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18241"
   },
   {
     "dish_id": "238638",
     "dish_name": "Филе с окороком",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 250,
+    "craft_qty": 2,
     "vendor_copper": 250,
     "reagents": [
       {
         "id": "12203",
         "name": "Красное волчье мясо",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "239016",
         "name": "Освященная соль",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1225759"
   },
   {
     "dish_id": "250067",
     "dish_name": "Хаше из нетопырей",
-    "skill": 1,
+    "skill": 275,
     "craft_qty": 1,
     "vendor_copper": 10,
     "reagents": [
       {
         "id": "12223",
         "name": "Мясистое крыло летучей мыши",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1250144"
   },
   {
     "dish_id": "238637",
     "dish_name": "Хищнический стейк",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 250,
+    "craft_qty": 2,
     "vendor_copper": 250,
     "reagents": [
       {
         "id": "12202",
         "name": "Мясо тигра",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "239016",
         "name": "Освященная соль",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1225758"
   },
   {
     "dish_id": "12224",
@@ -1984,13 +2086,14 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "15935"
   },
   {
     "dish_id": "5479",
     "dish_name": "Хрустящий хвост ящерицы",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 100,
+    "craft_qty": 2,
     "vendor_copper": 125,
     "reagents": [
       {
@@ -2003,13 +2106,14 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6418"
   },
   {
     "dish_id": "10841",
     "dish_name": "Чай из златошипа",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 215,
+    "craft_qty": 4,
     "vendor_copper": 85,
     "reagents": [
       {
@@ -2022,12 +2126,13 @@
         "name": "Освежающая ключевая вода",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "13028"
   },
   {
     "dish_id": "249867",
     "dish_name": "Чай из корешков",
-    "skill": 1,
+    "skill": 125,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -2039,14 +2144,15 @@
       {
         "id": "3357",
         "name": "Жизнекорень",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1249959"
   },
   {
     "dish_id": "249870",
     "dish_name": "Чай мудреца",
-    "skill": 1,
+    "skill": 250,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -2058,14 +2164,15 @@
       {
         "id": "13465",
         "name": "Горный серебряный шалфей",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "1249962"
   },
   {
     "dish_id": "12218",
     "dish_name": "Чудовищный омлет",
-    "skill": 1,
+    "skill": 225,
     "craft_qty": 1,
     "vendor_copper": 300,
     "reagents": [
@@ -2077,21 +2184,22 @@
       {
         "id": "3713",
         "name": "Ароматные специи",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "15933"
   },
   {
     "dish_id": "16766",
     "dish_name": "Шахтерская похлебка из моллюсков",
-    "skill": 1,
-    "craft_qty": 1,
+    "skill": 225,
+    "craft_qty": 2,
     "vendor_copper": 100,
     "reagents": [
       {
         "id": "7974",
         "name": "Острое мясо моллюска",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
@@ -2103,12 +2211,13 @@
         "name": "Ледяное молоко",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "20626"
   },
   {
     "dish_id": "249871",
     "dish_name": "Ядовитый смузи",
-    "skill": 1,
+    "skill": 25,
     "craft_qty": 1,
     "vendor_copper": 1,
     "reagents": [
@@ -2127,26 +2236,28 @@
         "name": "Малая ядовитая железа",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "1249963"
   },
   {
     "dish_id": "250078",
     "dish_name": "Яичница из гигантских яиц",
-    "skill": 1,
+    "skill": 175,
     "craft_qty": 1,
     "vendor_copper": 18,
     "reagents": [
       {
         "id": "12207",
         "name": "Гигантское яйцо",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "2692",
         "name": "Острые специи",
-        "qty": 1
+        "qty": 4
       }
-    ]
+    ],
+    "spell_id": "1250155"
   },
   {
     "dish_id": "6888",
@@ -2165,7 +2276,8 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "8604"
   },
   {
     "dish_id": "2680",
@@ -2184,7 +2296,8 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2539"
   },
   {
     "dish_id": "5472",
@@ -2198,7 +2311,8 @@
         "name": "Небольшая паучья лапка",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6412"
   },
   {
     "dish_id": "5525",
@@ -2217,7 +2331,8 @@
         "name": "Освежающая ключевая вода",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6499"
   },
   {
     "dish_id": "2684",
@@ -2231,13 +2346,14 @@
         "name": "Мясо койота",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2541"
   },
   {
     "dish_id": "5476",
     "dish_name": "Филе бешенки",
     "skill": 50,
-    "craft_qty": 1,
+    "craft_qty": 2,
     "vendor_copper": 3,
     "reagents": [
       {
@@ -2250,7 +2366,8 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6415"
   },
   {
     "dish_id": "2683",
@@ -2269,7 +2386,8 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2544"
   },
   {
     "dish_id": "2687",
@@ -2288,7 +2406,8 @@
         "name": "Пряные травы",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "2546"
   },
   {
     "dish_id": "5527",
@@ -2307,7 +2426,8 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "6500"
   },
   {
     "dish_id": "3728",
@@ -2319,14 +2439,15 @@
       {
         "id": "3731",
         "name": "Мясо льва",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "3713",
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3399"
   },
   {
     "dish_id": "4457",
@@ -2345,7 +2466,8 @@
         "name": "Острые специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "4094"
   },
   {
     "dish_id": "3729",
@@ -2364,7 +2486,8 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "3400"
   },
   {
     "dish_id": "17222",
@@ -2376,9 +2499,10 @@
       {
         "id": "12205",
         "name": "Белое мясо паука",
-        "qty": 1
+        "qty": 2
       }
-    ]
+    ],
+    "spell_id": "21175"
   },
   {
     "dish_id": "6887",
@@ -2392,7 +2516,8 @@
         "name": "Сырой пятнистый желтохвост",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18238"
   },
   {
     "dish_id": "13928",
@@ -2411,7 +2536,8 @@
         "name": "Ароматные специи",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18240"
   },
   {
     "dish_id": "13932",
@@ -2425,7 +2551,8 @@
         "name": "Сырой радужный лосось",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18244"
   },
   {
     "dish_id": "13931",
@@ -2444,6 +2571,7 @@
         "name": "Освежающая ключевая вода",
         "qty": 1
       }
-    ]
+    ],
+    "spell_id": "18243"
   }
 ]
